@@ -16,7 +16,7 @@ abstract class Rule implements Evaluable
     /**
      * @return Rule[]
      */
-    public function getDependents()
+    public function getDependencies()
     {
         return [];
     }

@@ -2,8 +2,6 @@
 
 namespace Arbiter\Rules;
 
-use Arbiter\Rules\Contracts\Context;
-
 final class RuleBook
 {
     private $arbiter;
@@ -37,15 +35,21 @@ final class RuleBook
     /**
      * @return Rule[]
      */
-    protected function getEvaluationStack()
+    public function getEvaluationStack()
     {
         $rules = [];
-        $stack = [];
-        foreach ($this->rules as $rule) {
-            array_push($stack, $rule);
-            foreach ($rule->getDependents() as $dependent) {
 
+        foreach ($this->rules as $rule) {
+            $stack = [$rule];
+            $current = $rule;
+            while ($current || $stack) {
+                array_push($rules, $current);
+                $current = array_pop($stack);
+                array_push($stack, $current->getDependencies());
             }
+
         }
+
+        return $rules;
     }
 }
