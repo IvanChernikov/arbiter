@@ -1,0 +1,29 @@
+{
+    "name": "ivan/arbiter",
+    "description": "Implementation of predicate based rule system",
+    "type": "library",
+    "require": {
+        "illuminate/support": "^5.7",
+        "illuminate/contracts": "^5.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Arbiter\\": "package/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Arbiter\\Tests\\": "tests/"
+        }
+    },
+    "license": "private",
+    "authors": [
+        {
+            "name": "Ivan Chernikov",
+            "email": "ivan.chernikov25@gmail.com"
+        }
+    ]
+}
