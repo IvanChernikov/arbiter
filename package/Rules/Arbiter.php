@@ -30,12 +30,22 @@ final class Arbiter
     }
 
     /**
+     * Creates a new RuleBook
+     * @param mixed ...$rules
+     * @return RuleBook
+     */
+    public function rulebook(...$rules)
+    {
+        return new RuleBook($this, ...$rules);
+    }
+
+    /**
      * @param Rule $rule
      * @return bool
      */
     public function evaluate(Rule $rule)
     {
-        return key_exists($rule->getDigest(), $this->registry)
+        return key_exists($rule->digest(), $this->registry)
             ? $this->register($rule)
             : $this->retrieve($rule);
     }
@@ -47,7 +57,7 @@ final class Arbiter
     private function register(Rule $rule)
     {
         return tap($rule->evaluate($this->context), function ($result) use ($rule) {
-            Arr::set($this->registry, $rule->getDigest(), $result);
+            Arr::set($this->registry, $rule->digest(), $result);
         });
     }
 
@@ -57,6 +67,6 @@ final class Arbiter
      */
     private function retrieve(Rule $rule)
     {
-        return Arr::get($this->registry, $rule->getDigest());
+        return Arr::get($this->registry, $rule->digest());
     }
 }

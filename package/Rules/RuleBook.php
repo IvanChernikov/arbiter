@@ -25,7 +25,7 @@ final class RuleBook
     {
         foreach ($this->getEvaluationStack() as $rule) {
             if (!$this->arbiter->evaluate($rule)) {
-                return false;
+                //return false;
             }
         }
 
@@ -35,7 +35,7 @@ final class RuleBook
     /**
      * @return Rule[]
      */
-    public function getEvaluationStack()
+    private function getEvaluationStack()
     {
         $rules = [];
 
@@ -45,7 +45,7 @@ final class RuleBook
             while ($current || $stack) {
                 array_push($rules, $current);
                 $current = array_pop($stack);
-                array_push($stack, $current->getDependencies());
+                $current && array_push($stack, ...$current->getDependencies());
             }
 
         }

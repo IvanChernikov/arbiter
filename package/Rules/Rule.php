@@ -3,9 +3,8 @@
 namespace Arbiter\Rules;
 
 use Arbiter\Rules\Contracts\Context;
-use Arbiter\Rules\Contracts\Evaluable;
 
-abstract class Rule implements Evaluable
+abstract class Rule
 {
     /**
      * @param Context $context
@@ -24,5 +23,5 @@ abstract class Rule implements Evaluable
     /**
      * @return string
      */
-    abstract public function getDigest();
+    abstract public function digest();
 }
