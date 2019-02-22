@@ -44,10 +44,9 @@ final class RuleBook
             $current = $rule;
             while ($current || $stack) {
                 array_push($rules, $current);
-                $current = array_pop($stack);
                 $current && array_push($stack, ...$current->getDependencies());
+                $current = array_pop($stack);
             }
-
         }
 
         return $rules;

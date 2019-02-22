@@ -21,11 +21,10 @@ class TestRule extends Rule
      */
     public function evaluate(Context $context)
     {
-        var_dump($context);
         if ($context instanceof IterationContext) {
             $it = $context->iteration();
             $truth = $it === $this->expected;
-            echo "{$it} " . ($truth ? '=' : '!') . "== {$this->expected}";
+            echo "{$it} (iteration) " . ($truth ? '=' : '!') . "== {$this->expected}(actual)\n";
             return $truth;
         }
         return false;
@@ -36,6 +35,7 @@ class TestRule extends Rule
      */
     public function digest()
     {
-        return sha1(implode([static::class, $this->expected]));
+        static $i = 0;
+        return sha1(implode([static::class, $this->expected, $i++]));
     }
 }

@@ -14,9 +14,9 @@ class RuleBookTest extends TestCase
     {
         $arbiter = new Arbiter(new TestContext());
         $rulebook = $arbiter->rulebook(
+            new TestRule(0),
             new TestRule(1),
-            new TestRule(2),
-            new TestNestedRule(3)
+            new TestNestedRule(5)
         );
 
         $this->assertTrue($rulebook->evaluate());

@@ -9,9 +9,9 @@ class TestNestedRule extends TestRule
     {
         echo "NESTED RULE\n";
         return [
-            new TestRule($this->expected + 1),
-            new TestRule($this->expected + 2),
-            new TestRule($this->expected + 3),
+            new TestRule($this->expected - 1),
+            new TestRule($this->expected - 2),
+            new TestRule($this->expected - 3),
         ];
     }
 

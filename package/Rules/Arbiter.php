@@ -46,8 +46,8 @@ final class Arbiter
     public function evaluate(Rule $rule)
     {
         return key_exists($rule->digest(), $this->registry)
-            ? $this->register($rule)
-            : $this->retrieve($rule);
+            ? $this->retrieve($rule)
+            : $this->register($rule);
     }
 
     /**
