@@ -34,6 +34,7 @@ final class Arbiter
 
     /**
      * Creates a new RuleBook
+     *
      * @param mixed ...$rules
      * @return RuleBook
      */
@@ -42,6 +43,11 @@ final class Arbiter
         return new RuleBook($this, ...$rules);
     }
 
+    /**
+     * Creates a new rulebook Builder
+     *
+     * @return Builder
+     */
     public function builder()
     {
         return new Builder($this);
