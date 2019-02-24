@@ -5,7 +5,7 @@ namespace Arbiter\Rules;
 use Arbiter\Contracts\Context;
 use Arbiter\Core\Rule;
 
-class InArray extends Rule
+abstract class InArray extends CustomValueRule
 {
     public function __construct($array)
     {

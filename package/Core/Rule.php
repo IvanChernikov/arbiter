@@ -2,16 +2,8 @@
 
 namespace Arbiter\Core;
 
-use Arbiter\Contracts\Context;
-
-abstract class Rule
+abstract class Rule implements \Arbiter\Contracts\Rule
 {
-    /**
-     * @param Context $context
-     * @return bool
-     */
-    abstract public function evaluate(Context $context);
-
     /**
      * @return Rule[]
      */
