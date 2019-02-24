@@ -27,8 +27,6 @@ class RuleBuilderTest extends TestCase
             ->build();
 
         $this->assertTrue($rulebook->evaluate());
-
-        var_dump($rulebook);
     }
 
 }

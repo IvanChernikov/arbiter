@@ -6,17 +6,20 @@ use Arbiter\Contracts\Context;
 use Arbiter\Contracts\CustomValueRule;
 use Arbiter\Core\Rule;
 
-abstract class IsEqual extends Rule implements CustomValueRule
+abstract class IsBetween extends Rule implements CustomValueRule
 {
-    protected $value;
+    protected $floor;
+    protected $ceiling;
 
     /**
-     * IsEqual constructor.
-     * @param $value
+     * IsBetween constructor.
+     * @param $floor
+     * @param $ceiling
      */
-    public function __construct($value)
+    public function __construct($floor, $ceiling)
     {
-        $this->value = $value;
+        $this->floor   = $floor;
+        $this->ceiling = $ceiling;
     }
 
     /**
@@ -27,7 +30,8 @@ abstract class IsEqual extends Rule implements CustomValueRule
      */
     public function evaluate(Context $context)
     {
-        return $this->getValue($context) == $this->value;
+        $value = $this->getValue($context);
+        return $value >= $this->floor && $value <= $this->ceiling;
     }
 
     /**
@@ -38,7 +42,8 @@ abstract class IsEqual extends Rule implements CustomValueRule
     public function getNormalizedParameters()
     {
         return [
-            'value' => $this->value,
+            'floor'   => $this->floor,
+            'ceiling' => $this->ceiling,
         ];
     }
 }
