@@ -3,7 +3,7 @@
 namespace Arbiter;
 
 use Arbiter\Contracts\Context;
-use Arbiter\Core\Builder;
+use Arbiter\Builder\Builder;
 use Arbiter\Core\Rule;
 use Arbiter\Core\RuleBook;
 use Illuminate\Support\Arr;

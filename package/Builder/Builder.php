@@ -1,9 +1,11 @@
 <?php
 
-namespace Arbiter\Core;
+namespace Arbiter\Builder;
 
 use Arbiter\Arbiter;
 use Arbiter\Builder\Template;
+use Arbiter\Core\Rule;
+use Arbiter\Core\RuleBook;
 use Closure;
 
 /**
