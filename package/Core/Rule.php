@@ -1,8 +1,8 @@
 <?php
 
-namespace Arbiter\Rules;
+namespace Arbiter\Core;
 
-use Arbiter\Rules\Contracts\Context;
+use Arbiter\Contracts\Context;
 
 abstract class Rule
 {
@@ -21,6 +21,9 @@ abstract class Rule
     }
 
     /**
+     * Returns a unique digest
+     * Parameter keys are ignored
+     *
      * @return string
      */
     final public function getDigest()
@@ -33,7 +36,9 @@ abstract class Rule
     }
 
     /**
-     * @return array;
+     * Returns a normalized array of parameters
+     *
+     * @return array
      */
     abstract public function getNormalizedParameters();
 }

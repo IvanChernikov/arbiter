@@ -1,6 +1,9 @@
 <?php
 
-namespace Arbiter\Rules;
+namespace Arbiter\Core;
+
+use Arbiter\Core\Arbiter;
+use Arbiter\Core\Rule;
 
 final class RuleBook
 {
@@ -21,6 +24,9 @@ final class RuleBook
     }
 
     /**
+     * Evaluates the rule stack
+     * Evaluation is deferred to the Arbiter
+     *
      * @return bool
      */
     public function evaluate()

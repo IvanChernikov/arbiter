@@ -2,7 +2,7 @@
 
 namespace Arbiter\Tests\Mocks;
 
-use Arbiter\App\IterationContext;
+use Arbiter\Tests\Mocks\Contracts\IterationContext;
 use Carbon\Carbon;
 
 class TestContext implements IterationContext

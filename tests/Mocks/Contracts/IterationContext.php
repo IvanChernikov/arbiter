@@ -1,8 +1,8 @@
 <?php
 
-namespace Arbiter\App;
+namespace Arbiter\Tests\Mocks\Contracts;
 
-use Arbiter\Rules\Contracts\Context;
+use Arbiter\Contracts\Context;
 
 interface IterationContext extends Context
 {

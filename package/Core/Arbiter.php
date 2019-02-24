@@ -1,8 +1,10 @@
 <?php
 
-namespace Arbiter\Rules;
+namespace Arbiter\Core;
 
-use Arbiter\Rules\Contracts\Context;
+use Arbiter\Contracts\Context;
+use Arbiter\Core\Rule;
+use Arbiter\Core\RuleBook;
 use Illuminate\Support\Arr;
 
 final class Arbiter

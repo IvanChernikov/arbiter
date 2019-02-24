@@ -2,7 +2,7 @@
 
 namespace Arbiter\Tests;
 
-use Arbiter\Rules\Arbiter;
+use Arbiter\Core\Arbiter;
 use Arbiter\Tests\Mocks\TestContext;
 use Arbiter\Tests\Mocks\NestedRule;
 use Arbiter\Tests\Mocks\TestRule;
@@ -48,5 +48,7 @@ class RuleBookTest extends TestCase
             'parameters' => $rule->getNormalizedParameters(),
             'digest' => $rule->getDigest(),
         ], $rulebook->getFailure());
+
+        var_dump($rulebook->getFailure());
     }
 }

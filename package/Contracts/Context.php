@@ -1,6 +1,6 @@
 <?php
 
-namespace Arbiter\Rules\Contracts;
+namespace Arbiter\Contracts;
 
 use Carbon\Carbon;
 

@@ -2,9 +2,9 @@
 
 namespace Arbiter\Tests\Mocks;
 
-use Arbiter\App\IterationContext;
-use Arbiter\Rules\Contracts\Context;
-use Arbiter\Rules\Rule;
+use Arbiter\Tests\Mocks\Contracts\IterationContext;
+use Arbiter\Contracts\Context;
+use Arbiter\Core\Rule;
 
 class TestRule extends Rule
 {
@@ -36,8 +36,8 @@ class TestRule extends Rule
     public function getNormalizedParameters()
     {
         return [
-            $this->expected,
-            $this->iteration,
+            'expected' => $this->expected,
+            'iteration' => $this->iteration,
         ];
     }
 }
