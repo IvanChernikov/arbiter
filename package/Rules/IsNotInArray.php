@@ -4,7 +4,7 @@ namespace Arbiter\Rules;
 
 use Arbiter\Contracts\Context;
 
-abstract class NotInArray extends InArray
+abstract class IsNotInArray extends IsInArray
 {
     /**
      * @param Context $context

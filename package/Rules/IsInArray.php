@@ -6,7 +6,7 @@ use Arbiter\Contracts\Context;
 use Arbiter\Contracts\CustomValueRule;
 use Arbiter\Core\Rule;
 
-abstract class InArray extends Rule implements CustomValueRule
+abstract class IsInArray extends Rule implements CustomValueRule
 {
     protected $array = [];
 
