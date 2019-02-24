@@ -2,7 +2,9 @@
 
 namespace Arbiter\Tests;
 
-class SanityTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SanityTest extends TestCase
 {
     public function testHelloWorld()
     {

@@ -2,7 +2,6 @@
 
 namespace Arbiter\Tests;
 
-use Arbiter\Contracts\Context;
 use Arbiter\Arbiter;
 use Arbiter\Builder\Template;
 use Arbiter\Tests\Mocks\TestContext;

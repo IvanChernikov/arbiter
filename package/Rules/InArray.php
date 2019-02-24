@@ -3,13 +3,21 @@
 namespace Arbiter\Rules;
 
 use Arbiter\Contracts\Context;
+use Arbiter\Contracts\CustomValueRule;
 use Arbiter\Core\Rule;
 
-abstract class InArray extends CustomValueRule
+abstract class InArray extends Rule implements CustomValueRule
 {
+    protected $array = [];
+
+    /**
+     * InArray constructor.
+     * @param $array
+     */
     public function __construct($array)
     {
-
+        $this->array = $array;
+        sort($this->array);
     }
 
     /**
@@ -18,7 +26,7 @@ abstract class InArray extends CustomValueRule
      */
     public function evaluate(Context $context)
     {
-        // TODO: Implement evaluate() method.
+        return in_array($this->getValue($context), $this->array);
     }
 
     /**
@@ -28,6 +36,8 @@ abstract class InArray extends CustomValueRule
      */
     public function getNormalizedParameters()
     {
-        // TODO: Implement getNormalizedParameters() method.
+        return [
+            'array' => $this->array
+        ];
     }
 }
