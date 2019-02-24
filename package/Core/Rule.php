@@ -26,11 +26,4 @@ abstract class Rule implements \Arbiter\Contracts\Rule
             ], $this->getNormalizedParameters())
         ));
     }
-
-    /**
-     * Returns a normalized array of parameters
-     *
-     * @return array
-     */
-    abstract public function getNormalizedParameters();
 }
