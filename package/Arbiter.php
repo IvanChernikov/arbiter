@@ -1,8 +1,9 @@
 <?php
 
-namespace Arbiter\Core;
+namespace Arbiter;
 
 use Arbiter\Contracts\Context;
+use Arbiter\Core\Builder;
 use Arbiter\Core\Rule;
 use Arbiter\Core\RuleBook;
 use Illuminate\Support\Arr;
@@ -39,6 +40,11 @@ final class Arbiter
     public function rulebook(...$rules)
     {
         return new RuleBook($this, ...$rules);
+    }
+
+    public function builder()
+    {
+        return new Builder($this);
     }
 
     /**

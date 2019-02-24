@@ -7,6 +7,10 @@ use Arbiter\Core\Rule;
 
 class InArray extends Rule
 {
+    public function __construct($array)
+    {
+        
+    }
 
     /**
      * @param Context $context

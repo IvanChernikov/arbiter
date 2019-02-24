@@ -2,7 +2,7 @@
 
 namespace Arbiter\Tests;
 
-use Arbiter\Core\Arbiter;
+use Arbiter\Arbiter;
 use Arbiter\Tests\Mocks\TestContext;
 use Arbiter\Tests\Mocks\NestedRule;
 use Arbiter\Tests\Mocks\TestRule;

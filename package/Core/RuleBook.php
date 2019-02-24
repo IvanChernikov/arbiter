@@ -2,8 +2,7 @@
 
 namespace Arbiter\Core;
 
-use Arbiter\Core\Arbiter;
-use Arbiter\Core\Rule;
+use Arbiter\Arbiter;
 
 final class RuleBook
 {
