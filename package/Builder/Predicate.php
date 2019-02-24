@@ -17,7 +17,7 @@ class Predicate
      *
      * Pass a closure that resolves a value out of the context
      *
-     * @param Closure $value(Context $context)
+     * @param Closure $value (Context $context)
      */
     public function __construct(Closure $value)
     {
@@ -39,7 +39,8 @@ class Predicate
      * @param Context $context
      * @return mixed
      */
-    private function extract(Context $context) {
+    private function extract(Context $context)
+    {
         $value = $this->value;
         return $value($context);
     }

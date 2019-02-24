@@ -23,23 +23,25 @@ class Builder
     public function __construct(Arbiter $arbiter)
     {
         $this->arbiter = $arbiter;
-        $this->rules = [];
+        $this->rules   = [];
     }
 
     /**
-     * @param Closure $definition(Template $template)
+     * @param Closure $definition (Template $template)
      * @return static
      */
-    public function rule(Closure $definition) {
+    public function rule(Closure $definition)
+    {
         array_push($this->rules, static::makeRule($definition));
         return $this;
     }
 
     /**
-     * @param Closure $definition(Template $template)
+     * @param Closure $definition (Template $template)
      * @return Rule
      */
-    public static function makeRule(Closure $definition) {
+    public static function makeRule(Closure $definition)
+    {
         return tap(new Template(), function ($template) use ($definition) {
             $definition($template);
         })->make();

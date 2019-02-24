@@ -9,7 +9,7 @@ abstract class InArray extends CustomValueRule
 {
     public function __construct($array)
     {
-        
+
     }
 
     /**

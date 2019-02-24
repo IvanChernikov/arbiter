@@ -69,9 +69,9 @@ final class RuleBook
     private function setFailure(Rule $rule)
     {
         $this->failure = [
-            'rule' => get_class($rule),
+            'rule'       => get_class($rule),
             'parameters' => $rule->getNormalizedParameters(),
-            'digest' => $rule->getDigest(),
+            'digest'     => $rule->getDigest(),
         ];
     }
 
