@@ -6,6 +6,7 @@ final class RuleBook
 {
     private $arbiter;
     private $rules;
+    private $failure;
 
     /**
      * RuleBook constructor.
@@ -16,6 +17,7 @@ final class RuleBook
     {
         $this->arbiter = $arbiter;
         $this->rules   = $rules;
+        $this->failure = [];
     }
 
     /**
@@ -23,9 +25,10 @@ final class RuleBook
      */
     public function evaluate()
     {
-        foreach ($this->getEvaluationStack() as $rule) {
+        foreach ($this->getStack() as $rule) {
             if (!$this->arbiter->evaluate($rule)) {
-                //return false;
+                $this->setFailure($rule);
+                return false;
             }
         }
 
@@ -33,22 +36,45 @@ final class RuleBook
     }
 
     /**
+     * Iterates through rules and creates the evaluation stack
+     * Dependencies get evaluated first
+     *
      * @return Rule[]
      */
-    private function getEvaluationStack()
+    private function getStack()
     {
-        $rules = [];
+        $queue = [];
+        $stack = [];
 
-        foreach ($this->rules as $rule) {
-            $stack = [$rule];
-            $current = $rule;
-            while ($current || $stack) {
-                array_push($rules, $current);
-                $current && array_push($stack, ...$current->getDependencies());
-                $current = array_pop($stack);
+        array_push($queue, ...$this->rules);
+        while ($queue) {
+            $current = array_pop($queue);
+            array_push($stack, $current);
+            foreach ($current->getDependencies() as $rule) {
+                array_unshift($queue, $rule);
             }
         }
 
-        return $rules;
+        return array_reverse($stack);
+    }
+
+    /**
+     * @param Rule $rule
+     */
+    private function setFailure(Rule $rule)
+    {
+        $this->failure = [
+            'rule' => get_class($rule),
+            'parameters' => $rule->getNormalizedParameters(),
+            'digest' => $rule->getDigest(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getFailure()
+    {
+        return $this->failure;
     }
 }

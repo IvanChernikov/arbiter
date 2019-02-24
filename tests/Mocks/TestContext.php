@@ -26,6 +26,10 @@ class TestContext implements IterationContext
     }
 
     static $iteration = 0;
+
+    /**
+     * @return int
+     */
     public function iteration()
     {
         return static::$iteration++;

@@ -23,5 +23,17 @@ abstract class Rule
     /**
      * @return string
      */
-    abstract public function digest();
+    final public function getDigest()
+    {
+        return sha1(implode(
+            array_merge([
+                static::class,
+            ], $this->getNormalizedParameters())
+        ));
+    }
+
+    /**
+     * @return array;
+     */
+    abstract public function getNormalizedParameters();
 }

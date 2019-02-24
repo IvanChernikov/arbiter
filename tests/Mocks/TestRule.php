@@ -9,10 +9,13 @@ use Arbiter\Rules\Rule;
 class TestRule extends Rule
 {
     protected $expected;
+    protected $iteration;
 
     public function __construct($expected)
     {
+        static $i = 0;
         $this->expected = $expected;
+        $this->iteration = $i++;
     }
 
     /**
@@ -22,20 +25,19 @@ class TestRule extends Rule
     public function evaluate(Context $context)
     {
         if ($context instanceof IterationContext) {
-            $it = $context->iteration();
-            $truth = $it === $this->expected;
-            echo "{$it} (iteration) " . ($truth ? '=' : '!') . "== {$this->expected}(actual)\n";
-            return $truth;
+            return $context->iteration() === $this->expected;
         }
         return false;
     }
 
     /**
-     * @return string
+     * @return array;
      */
-    public function digest()
+    public function getNormalizedParameters()
     {
-        static $i = 0;
-        return sha1(implode([static::class, $this->expected, $i++]));
+        return [
+            $this->expected,
+            $this->iteration,
+        ];
     }
 }

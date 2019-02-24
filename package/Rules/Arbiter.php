@@ -45,7 +45,7 @@ final class Arbiter
      */
     public function evaluate(Rule $rule)
     {
-        return key_exists($rule->digest(), $this->registry)
+        return key_exists($rule->getDigest(), $this->registry)
             ? $this->retrieve($rule)
             : $this->register($rule);
     }
@@ -57,7 +57,7 @@ final class Arbiter
     private function register(Rule $rule)
     {
         return tap($rule->evaluate($this->context), function ($result) use ($rule) {
-            Arr::set($this->registry, $rule->digest(), $result);
+            Arr::set($this->registry, $rule->getDigest(), $result);
         });
     }
 
@@ -67,6 +67,6 @@ final class Arbiter
      */
     private function retrieve(Rule $rule)
     {
-        return Arr::get($this->registry, $rule->digest());
+        return Arr::get($this->registry, $rule->getDigest());
     }
 }
