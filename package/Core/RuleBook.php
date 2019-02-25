@@ -2,13 +2,13 @@
 
 namespace Arbiter\Core;
 
-use Arbiter\Arbiter;
+use Arbiter\Contracts\Arbiter;
+use Arbiter\Contracts\Result;
 
 final class RuleBook
 {
     private $arbiter;
     private $rules;
-    private $failure;
 
     /**
      * RuleBook constructor.
@@ -18,21 +18,19 @@ final class RuleBook
     public function __construct(Arbiter $arbiter, Rule ...$rules)
     {
         $this->arbiter = $arbiter;
-        $this->rules   = $rules;
-        $this->failure = [];
+        $this->rules   = $this->expand(...$rules);
     }
 
     /**
      * Evaluates the rule stack
      * Evaluation is deferred to the Arbiter
      *
-     * @return bool
+     * @return Result
      */
     public function evaluate()
     {
-        foreach ($this->getStack() as $rule) {
+        foreach ($this->expand() as $rule) {
             if (!$this->arbiter->evaluate($rule)) {
-                $this->setFailure($rule);
                 return false;
             }
         }
@@ -44,42 +42,20 @@ final class RuleBook
      * Iterates through rules and creates the evaluation stack
      * Dependencies get evaluated first
      *
+     * @param Rule[] $rules
      * @return Rule[]
      */
-    private function getStack()
+    private function expand(Rule ...$rules)
     {
-        $queue = [];
-        $stack = [];
-
-        array_push($queue, ...$this->rules);
+        $list  = [];
+        $queue = $rules;
         while ($queue) {
+            /** @var \Arbiter\Contracts\Rule $current */
             $current = array_pop($queue);
-            array_push($stack, $current);
-            foreach ($current->getDependencies() as $rule) {
-                array_unshift($queue, $rule);
-            }
+            array_push($list, $current);
+            array_push($queue, ...$this->arbiter->expand($current));
         }
 
-        return array_reverse($stack);
-    }
-
-    /**
-     * @param Rule $rule
-     */
-    private function setFailure(Rule $rule)
-    {
-        $this->failure = [
-            'rule'       => get_class($rule),
-            'parameters' => $rule->getNormalizedParameters(),
-            'digest'     => $rule->getDigest(),
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getFailure()
-    {
-        return $this->failure;
+        return array_reverse($list);
     }
 }

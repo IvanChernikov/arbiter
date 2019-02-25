@@ -35,7 +35,7 @@ abstract class IsLessThan extends Rule implements CustomValueRule
      *
      * @return mixed
      */
-    public function getNormalizedParameters()
+    public function normalize()
     {
         return [
             'ceiling' => $this->ceiling,

@@ -2,12 +2,15 @@
 
 namespace Arbiter\Core;
 
+use Arbiter\Contracts\Context;
+
 abstract class Rule implements \Arbiter\Contracts\Rule
 {
     /**
+     * @param Context $context
      * @return Rule[]
      */
-    public function getDependencies()
+    public function expand(Context $context)
     {
         return [];
     }
@@ -18,12 +21,12 @@ abstract class Rule implements \Arbiter\Contracts\Rule
      *
      * @return string
      */
-    final public function getDigest()
+    final public function hash()
     {
         return sha1(implode(
             array_merge([
                 static::class,
-            ], $this->getNormalizedParameters())
+            ], $this->normalize())
         ));
     }
 }

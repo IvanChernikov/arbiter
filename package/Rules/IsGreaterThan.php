@@ -35,7 +35,7 @@ abstract class IsGreaterThan extends Rule implements CustomValueRule
      *
      * @return mixed
      */
-    public function getNormalizedParameters()
+    public function normalize()
     {
         return [
             'floor' => $this->floor,

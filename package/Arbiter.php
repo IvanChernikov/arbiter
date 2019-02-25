@@ -3,12 +3,12 @@
 namespace Arbiter;
 
 use Arbiter\Contracts\Context;
+use Arbiter\Contracts\Rule;
 use Arbiter\Builder\Builder;
-use Arbiter\Core\Rule;
 use Arbiter\Core\RuleBook;
 use Illuminate\Support\Arr;
 
-final class Arbiter
+final class Arbiter implements Contracts\Arbiter
 {
     /**
      * @var array|bool[]
@@ -59,9 +59,18 @@ final class Arbiter
      */
     public function evaluate(Rule $rule)
     {
-        return key_exists($rule->getDigest(), $this->registry)
+        return Arr::has($this->registry, $rule->hash())
             ? $this->retrieve($rule)
             : $this->register($rule);
+    }
+
+    /**
+     * @param Rule $rule
+     * @return Rule[]
+     */
+    public function expand(Rule $rule)
+    {
+        return $rule->expand($this->context);
     }
 
     /**
@@ -71,7 +80,7 @@ final class Arbiter
     private function register(Rule $rule)
     {
         return tap($rule->evaluate($this->context), function ($result) use ($rule) {
-            Arr::set($this->registry, $rule->getDigest(), $result);
+            Arr::set($this->registry, $rule->hash(), $result);
         });
     }
 
@@ -81,6 +90,6 @@ final class Arbiter
      */
     private function retrieve(Rule $rule)
     {
-        return Arr::get($this->registry, $rule->getDigest());
+        return Arr::get($this->registry, $rule->hash());
     }
 }

@@ -35,7 +35,7 @@ abstract class IsEqual extends Rule implements CustomValueRule
      *
      * @return mixed
      */
-    public function getNormalizedParameters()
+    public function normalize()
     {
         return [
             'value' => $this->value,

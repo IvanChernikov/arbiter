@@ -34,7 +34,7 @@ abstract class IsInArray extends Rule implements CustomValueRule
      *
      * @return array
      */
-    public function getNormalizedParameters()
+    public function normalize()
     {
         return [
             'array' => implode(',', $this->array),

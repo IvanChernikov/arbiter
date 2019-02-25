@@ -5,7 +5,7 @@ namespace Arbiter\Tests\Mocks;
 use Arbiter\Tests\Mocks\Contracts\IterationContext;
 use Carbon\Carbon;
 
-class TestContext implements IterationContext
+class IterationCountingContext implements IterationContext
 {
     protected $timestamp;
     protected $iteration;

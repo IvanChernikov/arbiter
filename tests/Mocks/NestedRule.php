@@ -2,18 +2,19 @@
 
 namespace Arbiter\Tests\Mocks;
 
-class NestedRule extends TestRule
+use Arbiter\Contracts\Context;
+
+class NestedRule extends Rule
 {
     protected $rules;
-    public function __construct($expected, TestRule ...$rules)
+    public function __construct($expected, Rule ...$rules)
     {
         parent::__construct($expected);
         $this->rules = $rules;
     }
 
-    public function getDependencies()
+    public function expand(Context $context)
     {
         return $this->rules;
     }
-
 }

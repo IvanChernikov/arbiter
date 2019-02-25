@@ -4,9 +4,8 @@ namespace Arbiter\Tests\Mocks;
 
 use Arbiter\Tests\Mocks\Contracts\IterationContext;
 use Arbiter\Contracts\Context;
-use Arbiter\Core\Rule;
 
-class TestRule extends Rule
+class Rule extends \Arbiter\Core\Rule
 {
     protected $expected;
     protected $iteration;
@@ -24,6 +23,7 @@ class TestRule extends Rule
      */
     public function evaluate(Context $context)
     {
+        echo sprintf('%10s === %-10s', 'expected ' . $this->expected, 'actual ' . $this->iteration) . PHP_EOL;
         if ($context instanceof IterationContext) {
             return $context->iteration() === $this->expected;
         }
@@ -33,7 +33,7 @@ class TestRule extends Rule
     /**
      * @return array;
      */
-    public function getNormalizedParameters()
+    public function normalize()
     {
         return [
             'expected' => $this->expected,

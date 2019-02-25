@@ -4,7 +4,7 @@ namespace Arbiter\Tests;
 
 use Arbiter\Arbiter;
 use Arbiter\Builder\Template;
-use Arbiter\Tests\Mocks\TestContext;
+use Arbiter\Tests\Mocks\IterationCountingContext;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 
@@ -15,15 +15,15 @@ class RuleBuilderTest extends TestCase
      */
     public function testEvaluation()
     {
-        $arbiter = new Arbiter(new TestContext());
+        $arbiter = new Arbiter(new IterationCountingContext());
         $rulebook = $arbiter->builder()
             ->rule(function (Template $rule) {
-                $rule->predicate(function (TestContext $context) {
+                $rule->predicate(function (IterationCountingContext $context) {
                     return $context->timestamp();
                 })->between(Carbon::parse('-1 day'), Carbon::parse('+1 day'));
             })
             ->rule(function (Template $rule) {
-                $rule->predicate(function (TestContext $context) {
+                $rule->predicate(function (IterationCountingContext $context) {
                     return $context->iteration();
                 })->equals(0);
             })

@@ -33,9 +33,10 @@ class DynamicRule extends Rule
     }
 
     /**
+     * @param Context $context
      * @return Rule[]
      */
-    public function getDependencies()
+    public function expand(Context $context)
     {
         return $this->dependencies;
     }
@@ -45,7 +46,7 @@ class DynamicRule extends Rule
      *
      * @return array
      */
-    public function getNormalizedParameters()
+    public function normalize()
     {
         return [spl_object_hash($this)];
     }

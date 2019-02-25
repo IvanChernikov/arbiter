@@ -14,21 +14,23 @@ interface Rule
 
     /**
      * Returns an array of rules that should be evaluated prior
+     *
+     * @param Context $context
      * @return Rule[]
      */
-    public function getDependencies();
+    public function expand(Context $context);
 
     /**
      * Returns a unique signature of the rule
      *
      * @return string
      */
-    public function getDigest();
+    public function hash();
 
     /**
      * Returns an ordered array of parameters
      *
      * @return array
      */
-    public function getNormalizedParameters();
+    public function normalize();
 }

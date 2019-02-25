@@ -39,7 +39,7 @@ abstract class IsBetween extends Rule implements CustomValueRule
      *
      * @return mixed
      */
-    public function getNormalizedParameters()
+    public function normalize()
     {
         return [
             'floor'   => $this->floor,

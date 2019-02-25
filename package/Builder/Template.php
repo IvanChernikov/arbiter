@@ -2,7 +2,7 @@
 
 namespace Arbiter\Builder;
 
-use Arbiter\Core\Rule;
+use Arbiter\Contracts\Rule;
 use Closure;
 
 class Template
