@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 class RuleBookTest extends TestCase
 {
+    /**
+     * Tests the order of evaluation for nested rules
+     */
     public function testEvaluationStack()
     {
         $arbiter = new Arbiter(new TestContext());
@@ -35,6 +38,9 @@ class RuleBookTest extends TestCase
         $this->assertTrue($rulebook->evaluate());
     }
 
+    /**
+     * Tests failure output
+     */
     public function testFailure()
     {
         $arbiter = new Arbiter(new TestContext());

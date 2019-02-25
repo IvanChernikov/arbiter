@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 class RuleBuilderTest extends TestCase
 {
+    /**
+     * Tests dynamic rulebook generation
+     */
     public function testEvaluation()
     {
         $arbiter = new Arbiter(new TestContext());
