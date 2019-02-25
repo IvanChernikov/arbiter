@@ -28,7 +28,7 @@ interface Rule
     /**
      * Returns an ordered array of parameters
      *
-     * @return mixed
+     * @return array
      */
     public function getNormalizedParameters();
 }
