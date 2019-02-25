@@ -54,7 +54,5 @@ class RuleBookTest extends TestCase
             'parameters' => $rule->getNormalizedParameters(),
             'digest' => $rule->getDigest(),
         ], $rulebook->getFailure());
-
-        var_dump($rulebook->getFailure());
     }
 }

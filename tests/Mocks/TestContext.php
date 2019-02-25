@@ -8,6 +8,7 @@ use Carbon\Carbon;
 class TestContext implements IterationContext
 {
     protected $timestamp;
+    protected $iteration;
 
     /**
      * TestContext constructor.
@@ -15,6 +16,7 @@ class TestContext implements IterationContext
     public function __construct()
     {
         $this->timestamp = Carbon::now();
+        $this->iteration = 0;
     }
 
     /**
@@ -25,13 +27,11 @@ class TestContext implements IterationContext
         return $this->timestamp;
     }
 
-    static $iteration = 0;
-
     /**
      * @return int
      */
     public function iteration()
     {
-        return static::$iteration++;
+        return $this->iteration++;
     }
 }
