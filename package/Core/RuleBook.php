@@ -29,7 +29,7 @@ final class RuleBook
      */
     public function evaluate()
     {
-        foreach ($this->expand() as $rule) {
+        foreach ($this->rules as $rule) {
             if (!$this->arbiter->evaluate($rule)) {
                 return false;
             }

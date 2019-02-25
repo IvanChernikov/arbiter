@@ -4,10 +4,10 @@ namespace Arbiter\Tests\Mocks;
 
 use Arbiter\Contracts\Context;
 
-class NestedRule extends Rule
+class IsInNestedOrder extends IsInOrder
 {
     protected $rules;
-    public function __construct($expected, Rule ...$rules)
+    public function __construct($expected, IsInOrder ...$rules)
     {
         parent::__construct($expected);
         $this->rules = $rules;

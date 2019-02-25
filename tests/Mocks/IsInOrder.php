@@ -5,7 +5,7 @@ namespace Arbiter\Tests\Mocks;
 use Arbiter\Tests\Mocks\Contracts\IterationContext;
 use Arbiter\Contracts\Context;
 
-class Rule extends \Arbiter\Core\Rule
+class IsInOrder extends \Arbiter\Core\Rule
 {
     protected $expected;
     protected $iteration;
