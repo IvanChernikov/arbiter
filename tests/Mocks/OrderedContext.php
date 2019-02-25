@@ -2,10 +2,9 @@
 
 namespace Arbiter\Tests\Mocks;
 
-use Arbiter\Tests\Mocks\Contracts\IterationContext;
 use Carbon\Carbon;
 
-class IterationCountingContext implements IterationContext
+class OrderedContext implements Contracts\OrderedContext
 {
     protected $timestamp;
     protected $iteration;

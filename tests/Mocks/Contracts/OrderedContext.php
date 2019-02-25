@@ -4,7 +4,7 @@ namespace Arbiter\Tests\Mocks\Contracts;
 
 use Arbiter\Contracts\Context;
 
-interface IterationContext extends Context
+interface OrderedContext extends Context
 {
     /**
      * @return int

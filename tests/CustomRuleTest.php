@@ -11,7 +11,7 @@ use Arbiter\Rules\IsInArray;
 use Arbiter\Rules\IsLessThan;
 use Arbiter\Rules\IsNotEqual;
 use Arbiter\Rules\IsNotInArray;
-use Arbiter\Tests\Mocks\IterationCountingContext;
+use Arbiter\Tests\Mocks\OrderedContext;
 use PHPUnit\Framework\TestCase;
 
 class CustomRuleTest extends TestCase
@@ -39,7 +39,7 @@ class CustomRuleTest extends TestCase
      */
     protected function getRulebook(Rule ...$rules)
     {
-        return (new Arbiter(new IterationCountingContext()))->rulebook(...$rules);
+        return (new Arbiter(new OrderedContext()))->rulebook(...$rules);
     }
 
     /**

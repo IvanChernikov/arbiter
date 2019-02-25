@@ -3,7 +3,7 @@
 namespace Arbiter\Tests;
 
 use Arbiter\Arbiter;
-use Arbiter\Tests\Mocks\IterationCountingContext;
+use Arbiter\Tests\Mocks\OrderedContext;
 use Arbiter\Tests\Mocks\IsInNestedOrder;
 use Arbiter\Tests\Mocks\IsInOrder;
 use PHPUnit\Framework\TestCase;
@@ -15,7 +15,7 @@ class RuleBookTest extends TestCase
      */
     public function testEvaluationStack()
     {
-        $arbiter = new Arbiter(new IterationCountingContext());
+        $arbiter = new Arbiter(new OrderedContext());
         $rulebook = $arbiter->rulebook(
             new IsInOrder(0),
             new IsInOrder(1),
@@ -43,7 +43,7 @@ class RuleBookTest extends TestCase
      */
     public function testFailure()
     {
-        $arbiter = new Arbiter(new IterationCountingContext());
+        $arbiter = new Arbiter(new OrderedContext());
         $rule = new IsInOrder(1);
         $rulebook = $arbiter->rulebook($rule);
 
