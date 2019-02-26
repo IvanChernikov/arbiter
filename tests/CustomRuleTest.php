@@ -92,5 +92,4 @@ class CustomRuleTest extends TestCase
             IsNotInArrayRule::class  => [IsNotInArrayRule::class, [[1, 2]], 0, 1],
         ];
     }
-
 }
