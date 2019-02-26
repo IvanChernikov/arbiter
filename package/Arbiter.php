@@ -45,16 +45,6 @@ final class Arbiter implements Contracts\ArbiterContract
     }
 
     /**
-     * Creates a new rulebook Builder
-     *
-     * @return Builder
-     */
-    public function builder()
-    {
-        return new Builder($this);
-    }
-
-    /**
      * @param RuleContract $rule
      * @return bool
      */
@@ -74,11 +64,22 @@ final class Arbiter implements Contracts\ArbiterContract
         return $rule->expand($this->context);
     }
 
+    /**
+     * Refuses a rulebook
+     *
+     * @param RuleContract $rule
+     * @return Contracts\ResultContract|Result
+     */
     public function refuse(RuleContract $rule)
     {
         return Result::refusal($rule, $this->context);
     }
 
+    /**
+     * Approves a rulebook
+     *
+     * @return Contracts\ResultContract|Result
+     */
     public function approve()
     {
         return Result::approval($this->context);
