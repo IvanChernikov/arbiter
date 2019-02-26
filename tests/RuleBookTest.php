@@ -14,7 +14,7 @@ class RuleBookTest extends TestCase
     /**
      * Tests the order of evaluation for nested rules
      */
-    public function testEvaluationStack()
+    public function testExpandOrder()
     {
         $arbiter = new Arbiter(new OrderedContext());
         $rulebook = $arbiter->rulebook(
