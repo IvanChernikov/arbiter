@@ -2,7 +2,7 @@
 
 namespace Arbiter\Tests\Mocks;
 
-use Arbiter\Contracts\Context;
+use Arbiter\Contracts\ContextContract;
 
 class IsInNestedOrder extends IsInOrder
 {
@@ -13,7 +13,7 @@ class IsInNestedOrder extends IsInOrder
         $this->rules = $rules;
     }
 
-    public function expand(Context $context)
+    public function expand(ContextContract $context)
     {
         return $this->rules;
     }

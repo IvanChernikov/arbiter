@@ -5,7 +5,7 @@ namespace Arbiter\Contracts;
 interface CustomValueRule
 {
     /**
-     * @param Context $context
+     * @param ContextContract $context
      */
-    public function getValue(Context $context);
+    public function getValue(ContextContract $context);
 }

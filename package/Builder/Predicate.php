@@ -2,7 +2,7 @@
 
 namespace Arbiter\Builder;
 
-use Arbiter\Contracts\Context;
+use Arbiter\Contracts\ContextContract;
 use Closure;
 
 class Predicate
@@ -25,10 +25,10 @@ class Predicate
     }
 
     /**
-     * @param Context $context
+     * @param ContextContract $context
      * @return bool
      */
-    public function __invoke(Context $context)
+    public function __invoke(ContextContract $context)
     {
         $predicate = $this->predicate;
         return $predicate($context);
@@ -36,10 +36,10 @@ class Predicate
 
     /**
      * Extracts value from context
-     * @param Context $context
+     * @param ContextContract $context
      * @return mixed
      */
-    private function extract(Context $context)
+    private function extract(ContextContract $context)
     {
         $value = $this->value;
         return $value($context);
@@ -51,7 +51,7 @@ class Predicate
      */
     public function in(array $array)
     {
-        $this->predicate = function (Context $context) use ($array) {
+        $this->predicate = function (ContextContract $context) use ($array) {
             return in_array($this->extract($context), $array);
         };
         return $this;
@@ -63,7 +63,7 @@ class Predicate
      */
     public function equals($to)
     {
-        $this->predicate = function (Context $context) use ($to) {
+        $this->predicate = function (ContextContract $context) use ($to) {
             return $this->extract($context) == $to;
         };
         return $this;
@@ -76,7 +76,7 @@ class Predicate
      */
     public function between($min, $max)
     {
-        $this->predicate = function (Context $context) use ($min, $max) {
+        $this->predicate = function (ContextContract $context) use ($min, $max) {
             $value = $this->extract($context);
             return $value >= $min && $value <= $max;
         };

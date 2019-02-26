@@ -2,15 +2,15 @@
 
 namespace Arbiter\Rules;
 
-use Arbiter\Contracts\Context;
+use Arbiter\Contracts\ContextContract;
 
 abstract class IsNotInArray extends IsInArray
 {
     /**
-     * @param Context $context
+     * @param ContextContract $context
      * @return bool
      */
-    public function evaluate(Context $context)
+    public function evaluate(ContextContract $context)
     {
         return !parent::evaluate($context);
     }

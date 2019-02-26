@@ -2,7 +2,7 @@
 
 namespace Arbiter\Builder;
 
-use Arbiter\Arbiter;
+use Arbiter\Contracts\ArbiterContract;
 use Arbiter\Core\Rule;
 use Arbiter\Core\RuleBook;
 use Closure;
@@ -18,9 +18,9 @@ class Builder
 
     /**
      * Builder constructor.
-     * @param Arbiter $arbiter
+     * @param ArbiterContract $arbiter
      */
-    public function __construct(Arbiter $arbiter)
+    public function __construct(ArbiterContract $arbiter)
     {
         $this->arbiter = $arbiter;
         $this->rules   = [];

@@ -2,9 +2,9 @@
 
 namespace Arbiter\Tests\Mocks\Contracts;
 
-use Arbiter\Contracts\Context;
+use Arbiter\Contracts\ContextContract;
 
-interface OrderedContext extends Context
+interface OrderedContextContract extends ContextContract
 {
     /**
      * @return int

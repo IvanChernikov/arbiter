@@ -2,7 +2,7 @@
 
 namespace Arbiter\Builder;
 
-use Arbiter\Contracts\Rule;
+use Arbiter\Contracts\RuleContract;
 use Closure;
 
 class Template
@@ -23,9 +23,9 @@ class Template
     }
 
     /**
-     * @param Rule ...$rules
+     * @param RuleContract ...$rules
      */
-    public function children(Rule ...$rules)
+    public function children(RuleContract ...$rules)
     {
         $this->children = $rules;
     }

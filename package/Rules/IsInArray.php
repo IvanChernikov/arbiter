@@ -2,7 +2,7 @@
 
 namespace Arbiter\Rules;
 
-use Arbiter\Contracts\Context;
+use Arbiter\Contracts\ContextContract;
 use Arbiter\Contracts\CustomValueRule;
 use Arbiter\Core\Rule;
 
@@ -21,10 +21,10 @@ abstract class IsInArray extends Rule implements CustomValueRule
     }
 
     /**
-     * @param Context $context
+     * @param ContextContract $context
      * @return bool
      */
-    public function evaluate(Context $context)
+    public function evaluate(ContextContract $context)
     {
         return in_array($this->getValue($context), $this->array);
     }

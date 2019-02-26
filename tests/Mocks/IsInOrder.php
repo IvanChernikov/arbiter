@@ -2,8 +2,8 @@
 
 namespace Arbiter\Tests\Mocks;
 
-use Arbiter\Tests\Mocks\Contracts\OrderedContext;
-use Arbiter\Contracts\Context;
+use Arbiter\Tests\Mocks\Contracts\OrderedContextContract;
+use Arbiter\Contracts\ContextContract;
 
 class IsInOrder extends \Arbiter\Core\Rule
 {
@@ -18,13 +18,13 @@ class IsInOrder extends \Arbiter\Core\Rule
     }
 
     /**
-     * @param Context $context
+     * @param ContextContract $context
      * @return bool
      */
-    public function evaluate(Context $context)
+    public function evaluate(ContextContract $context)
     {
         echo sprintf('%10s === %-10s', 'expected ' . $this->expected, 'actual ' . $this->iteration) . PHP_EOL;
-        if ($context instanceof OrderedContext) {
+        if ($context instanceof OrderedContextContract) {
             return $context->iteration() === $this->expected;
         }
         return false;

@@ -2,7 +2,7 @@
 
 namespace Arbiter\Builder;
 
-use Arbiter\Contracts\Context;
+use Arbiter\Contracts\ContextContract;
 use Arbiter\Core\Rule;
 
 class DynamicRule extends Rule
@@ -23,20 +23,20 @@ class DynamicRule extends Rule
     }
 
     /**
-     * @param Context $context
+     * @param ContextContract $context
      * @return bool
      */
-    public function evaluate(Context $context)
+    public function evaluate(ContextContract $context)
     {
         $predicate = $this->predicate;
         return $predicate($context);
     }
 
     /**
-     * @param Context $context
+     * @param ContextContract $context
      * @return Rule[]
      */
-    public function expand(Context $context)
+    public function expand(ContextContract $context)
     {
         return $this->dependencies;
     }

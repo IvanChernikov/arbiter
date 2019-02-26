@@ -2,23 +2,23 @@
 
 namespace Arbiter\Contracts;
 
-interface Rule
+interface RuleContract
 {
     /**
      * Evaluates the rule
      *
-     * @param Context $context
+     * @param ContextContract $context
      * @return bool
      */
-    public function evaluate(Context $context);
+    public function evaluate(ContextContract $context);
 
     /**
      * Returns an array of rules that should be evaluated prior
      *
-     * @param Context $context
-     * @return Rule[]
+     * @param ContextContract $context
+     * @return RuleContract[]
      */
-    public function expand(Context $context);
+    public function expand(ContextContract $context);
 
     /**
      * Returns a unique signature of the rule

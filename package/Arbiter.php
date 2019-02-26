@@ -2,13 +2,14 @@
 
 namespace Arbiter;
 
-use Arbiter\Contracts\Context;
-use Arbiter\Contracts\Rule;
+use Arbiter\Contracts\ContextContract;
+use Arbiter\Contracts\RuleContract;
 use Arbiter\Builder\Builder;
+use Arbiter\Core\Result;
 use Arbiter\Core\RuleBook;
 use Illuminate\Support\Arr;
 
-final class Arbiter implements Contracts\Arbiter
+final class Arbiter implements Contracts\ArbiterContract
 {
     /**
      * @var array|bool[]
@@ -16,7 +17,7 @@ final class Arbiter implements Contracts\Arbiter
     private $registry = [];
 
     /**
-     * @var Context
+     * @var ContextContract
      */
     private $context;
 
@@ -25,9 +26,9 @@ final class Arbiter implements Contracts\Arbiter
      *
      * Oversees rule evaluation over single context
      *
-     * @param Context $context
+     * @param ContextContract $context
      */
-    public function __construct(Context $context)
+    public function __construct(ContextContract $context)
     {
         $this->context = $context;
     }
@@ -54,10 +55,10 @@ final class Arbiter implements Contracts\Arbiter
     }
 
     /**
-     * @param Rule $rule
+     * @param RuleContract $rule
      * @return bool
      */
-    public function evaluate(Rule $rule)
+    public function evaluate(RuleContract $rule)
     {
         return Arr::has($this->registry, $rule->hash())
             ? $this->retrieve($rule)
@@ -65,19 +66,29 @@ final class Arbiter implements Contracts\Arbiter
     }
 
     /**
-     * @param Rule $rule
-     * @return Rule[]
+     * @param RuleContract $rule
+     * @return RuleContract[]
      */
-    public function expand(Rule $rule)
+    public function expand(RuleContract $rule)
     {
         return $rule->expand($this->context);
     }
 
+    public function refuse(RuleContract $rule)
+    {
+        return Result::refusal($rule, $this->context);
+    }
+
+    public function approve()
+    {
+        return Result::approval($this->context);
+    }
+
     /**
-     * @param Rule $rule
+     * @param RuleContract $rule
      * @return bool
      */
-    private function register(Rule $rule)
+    private function register(RuleContract $rule)
     {
         return tap($rule->evaluate($this->context), function ($result) use ($rule) {
             Arr::set($this->registry, $rule->hash(), $result);
@@ -85,10 +96,10 @@ final class Arbiter implements Contracts\Arbiter
     }
 
     /**
-     * @param Rule $rule
+     * @param RuleContract $rule
      * @return bool
      */
-    private function retrieve(Rule $rule)
+    private function retrieve(RuleContract $rule)
     {
         return Arr::get($this->registry, $rule->hash());
     }

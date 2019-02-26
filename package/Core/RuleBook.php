@@ -2,8 +2,8 @@
 
 namespace Arbiter\Core;
 
-use Arbiter\Contracts\Arbiter;
-use Arbiter\Contracts\Result;
+use Arbiter\Contracts\ArbiterContract;
+use Arbiter\Contracts\ResultContract;
 
 final class RuleBook
 {
@@ -12,10 +12,10 @@ final class RuleBook
 
     /**
      * RuleBook constructor.
-     * @param Arbiter $arbiter
+     * @param ArbiterContract $arbiter
      * @param Rule ...$rules
      */
-    public function __construct(Arbiter $arbiter, Rule ...$rules)
+    public function __construct(ArbiterContract $arbiter, Rule ...$rules)
     {
         $this->arbiter = $arbiter;
         $this->rules   = $this->expand(...$rules);
@@ -25,17 +25,17 @@ final class RuleBook
      * Evaluates the rule stack
      * Evaluation is deferred to the Arbiter
      *
-     * @return Result
+     * @return ResultContract
      */
     public function evaluate()
     {
         foreach ($this->rules as $rule) {
             if (!$this->arbiter->evaluate($rule)) {
-                return false;
+                return $this->arbiter->refuse($rule);
             }
         }
 
-        return true;
+        return $this->arbiter->approve();
     }
 
     /**
@@ -50,12 +50,12 @@ final class RuleBook
         $list  = [];
         $queue = $rules;
         while ($queue) {
-            /** @var \Arbiter\Contracts\Rule $current */
+            /** @var \Arbiter\Contracts\RuleContract $current */
             $current = array_pop($queue);
             array_push($list, $current);
             array_push($queue, ...$this->arbiter->expand($current));
         }
 
-        return array_reverse($list);
+        return array_unique(array_reverse($list));
     }
 }

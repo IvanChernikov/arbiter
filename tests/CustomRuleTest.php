@@ -3,7 +3,7 @@
 namespace Arbiter\Tests;
 
 use Arbiter\Arbiter;
-use Arbiter\Contracts\Rule;
+use Arbiter\Contracts\RuleContract;
 use Arbiter\Rules\IsBetween;
 use Arbiter\Rules\IsEqual;
 use Arbiter\Rules\IsGreaterThan;
@@ -20,7 +20,7 @@ class CustomRuleTest extends TestCase
      * @param string $class custom rule base-class
      * @param array $params constructor array
      * @param mixed $value return value for CustomValueRule::getValue()
-     * @return \PHPUnit\Framework\MockObject\MockObject|Rule
+     * @return \PHPUnit\Framework\MockObject\MockObject|RuleContract
      * @throws \ReflectionException
      */
     protected function getCustomRuleMock($class, $params, $value)
@@ -34,19 +34,19 @@ class CustomRuleTest extends TestCase
     }
 
     /**
-     * @param Rule ...$rules
+     * @param RuleContract ...$rules
      * @return \Arbiter\Core\RuleBook
      */
-    protected function getRulebook(Rule ...$rules)
+    protected function getRulebook(RuleContract ...$rules)
     {
         return (new Arbiter(new OrderedContext()))->rulebook(...$rules);
     }
 
     /**
-     * @param Rule $rule
+     * @param RuleContract $rule
      * @param bool $expected
      */
-    protected function evaluateRule(Rule $rule, $expected)
+    protected function evaluateRule(RuleContract $rule, $expected)
     {
         $rulebook = $this->getRulebook($rule);
 

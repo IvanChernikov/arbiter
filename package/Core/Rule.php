@@ -2,15 +2,16 @@
 
 namespace Arbiter\Core;
 
-use Arbiter\Contracts\Context;
+use Arbiter\Contracts\ContextContract;
+use Arbiter\Contracts\RuleContract;
 
-abstract class Rule implements \Arbiter\Contracts\Rule
+abstract class Rule implements RuleContract
 {
     /**
-     * @param Context $context
+     * @param ContextContract $context
      * @return Rule[]
      */
-    public function expand(Context $context)
+    public function expand(ContextContract $context)
     {
         return [];
     }

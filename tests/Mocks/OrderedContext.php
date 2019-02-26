@@ -4,7 +4,7 @@ namespace Arbiter\Tests\Mocks;
 
 use Carbon\Carbon;
 
-class OrderedContext implements Contracts\OrderedContext
+class OrderedContext implements Contracts\OrderedContextContract
 {
     protected $timestamp;
     protected $iteration;

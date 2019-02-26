@@ -2,7 +2,7 @@
 
 namespace Arbiter\Rules;
 
-use Arbiter\Contracts\Context;
+use Arbiter\Contracts\ContextContract;
 use Arbiter\Contracts\CustomValueRule;
 use Arbiter\Core\Rule;
 
@@ -22,10 +22,10 @@ abstract class IsGreaterThan extends Rule implements CustomValueRule
     /**
      * Evaluates the rule
      *
-     * @param Context $context
+     * @param ContextContract $context
      * @return bool
      */
-    public function evaluate(Context $context)
+    public function evaluate(ContextContract $context)
     {
         return $this->getValue($context) > $this->floor;
     }
