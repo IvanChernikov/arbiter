@@ -4,7 +4,6 @@ namespace Arbiter\Core;
 
 use Arbiter\Contracts\ArbiterContract;
 use Arbiter\Contracts\ResultContract;
-use Illuminate\Support\Arr;
 
 final class RuleBook
 {
@@ -49,12 +48,12 @@ final class RuleBook
     private function expand(Rule ...$rules)
     {
         $list  = collect();
-        $queue = $rules;
-        while ($queue) {
+        $stack = $rules;
+        while ($stack) {
             /** @var \Arbiter\Contracts\RuleContract $current */
-            $current = array_pop($queue);
+            $current = array_pop($stack);
             $list->push($current);
-            array_push($queue, ...$this->arbiter->expand($current));
+            array_push($stack, ...$this->arbiter->expand($current));
         }
 
         return $list->reverse()->unique(function (Rule $rule) {
