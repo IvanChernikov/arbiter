@@ -4,8 +4,6 @@ namespace Arbiter;
 
 use Arbiter\Contracts\ContextContract;
 use Arbiter\Contracts\RuleContract;
-use Arbiter\Builder\Builder;
-use Arbiter\Core\Exceptions\CircularDependencyException;
 use Arbiter\Core\Result;
 use Arbiter\Core\RuleBook;
 use Illuminate\Support\Arr;
@@ -62,7 +60,7 @@ final class Arbiter implements Contracts\ArbiterContract
      */
     public function expand(RuleContract $rule)
     {
-        return $this->validateExpansion($rule, ...$rule->expand($this->context));
+        return $rule->expand($this->context);
     }
 
     /**
@@ -104,22 +102,5 @@ final class Arbiter implements Contracts\ArbiterContract
     private function retrieve(RuleContract $rule)
     {
         return Arr::get($this->registry, $rule->hash());
-    }
-
-    /**
-     * Detects circular dependencies between rules
-     *
-     * @param RuleContract $parent
-     * @param RuleContract ...$children
-     * @return RuleContract[]
-     */
-    private function validateExpansion(RuleContract $parent, RuleContract ...$children)
-    {
-        collect($children)->each(function (RuleContract $rule) use ($parent) {
-            if ($rule->hash() === $parent->hash()) {
-                throw new CircularDependencyException($parent, $rule);
-            }
-        });
-        return $children;
     }
 }
