@@ -23,7 +23,6 @@ class IsInOrder extends \Arbiter\Core\Rule
      */
     public function evaluate(ContextContract $context)
     {
-        echo sprintf('%10s === %-10s', 'expected ' . $this->expected, 'actual ' . $this->iteration) . PHP_EOL;
         if ($context instanceof OrderedContextContract) {
             return $context->iteration() === $this->expected;
         }
