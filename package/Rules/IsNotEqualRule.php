@@ -4,7 +4,7 @@ namespace Arbiter\Rules;
 
 use Arbiter\Contracts\ContextContract;
 
-abstract class IsNotEqual extends IsEqual
+abstract class IsNotEqualRule extends IsEqualRule
 {
     /**
      * @param ContextContract $context

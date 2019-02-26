@@ -6,17 +6,17 @@ use Arbiter\Contracts\ContextContract;
 use Arbiter\Contracts\CustomValueRule;
 use Arbiter\Core\Rule;
 
-abstract class IsGreaterThan extends Rule implements CustomValueRule
+abstract class IsLessThanRule extends Rule implements CustomValueRule
 {
-    protected $floor;
+    protected $ceiling;
 
     /**
-     * IsGreaterThan constructor.
-     * @param $floor
+     * IsLessThan constructor.
+     * @param $ceiling
      */
-    public function __construct($floor)
+    public function __construct($ceiling)
     {
-        $this->floor = $floor;
+        $this->ceiling = $ceiling;
     }
 
     /**
@@ -27,7 +27,7 @@ abstract class IsGreaterThan extends Rule implements CustomValueRule
      */
     public function evaluate(ContextContract $context)
     {
-        return $this->getValue($context) > $this->floor;
+        return $this->getValue($context) < $this->ceiling;
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class IsGreaterThan extends Rule implements CustomValueRule
     public function normalize()
     {
         return [
-            'floor' => $this->floor,
+            'ceiling' => $this->ceiling,
         ];
     }
 }

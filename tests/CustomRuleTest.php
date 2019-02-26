@@ -4,13 +4,13 @@ namespace Arbiter\Tests;
 
 use Arbiter\Arbiter;
 use Arbiter\Contracts\RuleContract;
-use Arbiter\Rules\IsBetween;
-use Arbiter\Rules\IsEqual;
-use Arbiter\Rules\IsGreaterThan;
-use Arbiter\Rules\IsInArray;
-use Arbiter\Rules\IsLessThan;
-use Arbiter\Rules\IsNotEqual;
-use Arbiter\Rules\IsNotInArray;
+use Arbiter\Rules\IsBetweenRule;
+use Arbiter\Rules\IsEqualRule;
+use Arbiter\Rules\IsGreaterThanRule;
+use Arbiter\Rules\IsInArrayRule;
+use Arbiter\Rules\IsLessThanRule;
+use Arbiter\Rules\IsNotEqualRule;
+use Arbiter\Rules\IsNotInArrayRule;
 use Arbiter\Tests\Mocks\OrderedContext;
 use PHPUnit\Framework\TestCase;
 
@@ -84,13 +84,13 @@ class CustomRuleTest extends TestCase
     public function getCustomRuleData()
     {
         return [
-            IsBetween::class     => [IsBetween::class, [0, 2], 1, 3],
-            IsEqual::class       => [IsEqual::class, [1], 1, 0],
-            IsGreaterThan::class => [IsGreaterThan::class, [1], 2, 0],
-            IsInArray::class     => [IsInArray::class, [[1, 2]], 1, 0],
-            IsLessThan::class    => [IsLessThan::class, [1], 0, 2],
-            IsNotEqual::class    => [IsNotEqual::class, [1], 0, 1],
-            IsNotInArray::class  => [IsNotInArray::class, [[1, 2]], 0, 1],
+            IsBetweenRule::class     => [IsBetweenRule::class, [0, 2], 1, 3],
+            IsEqualRule::class       => [IsEqualRule::class, [1], 1, 0],
+            IsGreaterThanRule::class => [IsGreaterThanRule::class, [1], 2, 0],
+            IsInArrayRule::class     => [IsInArrayRule::class, [[1, 2]], 1, 0],
+            IsLessThanRule::class    => [IsLessThanRule::class, [1], 0, 2],
+            IsNotEqualRule::class    => [IsNotEqualRule::class, [1], 0, 1],
+            IsNotInArrayRule::class  => [IsNotInArrayRule::class, [[1, 2]], 0, 1],
         ];
     }
 
