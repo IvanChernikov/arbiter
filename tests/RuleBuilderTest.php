@@ -4,6 +4,7 @@ namespace Arbiter\Tests;
 
 use Arbiter\Arbiter;
 use Arbiter\Builder\Template;
+use Arbiter\Contracts\ResultContract;
 use Arbiter\Tests\Mocks\OrderedContext;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +30,9 @@ class RuleBuilderTest extends TestCase
             })
             ->build();
 
-        $this->assertTrue($rulebook->evaluate());
+        $result = $rulebook->evaluate();
+        $this->assertInstanceOf(ResultContract::class, $result);
+        $this->assertTrue($result->success());
     }
 
 }

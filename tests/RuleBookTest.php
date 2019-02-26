@@ -3,6 +3,7 @@
 namespace Arbiter\Tests;
 
 use Arbiter\Arbiter;
+use Arbiter\Contracts\ResultContract;
 use Arbiter\Tests\Mocks\OrderedContext;
 use Arbiter\Tests\Mocks\IsInNestedOrder;
 use Arbiter\Tests\Mocks\IsInOrder;
@@ -35,7 +36,10 @@ class RuleBookTest extends TestCase
             )
         );
 
-        $this->assertTrue($rulebook->evaluate());
+        $result = $rulebook->evaluate();
+
+        $this->assertInstanceOf(ResultContract::class, $result);
+        $this->assertTrue($result->success());
     }
 
     /**
@@ -47,8 +51,9 @@ class RuleBookTest extends TestCase
         $rule = new IsInOrder(1);
         $rulebook = $arbiter->rulebook($rule);
 
-        var_dump($rulebook);
+        $result = $rulebook->evaluate();
 
-        $this->assertFalse($rulebook->evaluate());
+        $this->assertInstanceOf(ResultContract::class, $result);
+        $this->assertFalse($result->success());
     }
 }

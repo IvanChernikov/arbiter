@@ -33,4 +33,15 @@ class OrderedContext implements Contracts\OrderedContextContract
     {
         return $this->iteration++;
     }
+
+    /**
+     * @return array
+     */
+    public function serialize()
+    {
+        return [
+            'timestamp' => $this->timestamp,
+            'iteration' => $this->iteration,
+        ];
+    }
 }

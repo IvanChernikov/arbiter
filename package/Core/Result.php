@@ -15,10 +15,10 @@ final class Result implements ResultContract
     /**
      * Result constructor.
      * @param bool $success
-     * @param RuleContract $error
      * @param ContextContract $context
+     * @param RuleContract $error
      */
-    private function __construct($success, RuleContract $error, ContextContract $context)
+    private function __construct($success, ContextContract $context, RuleContract $error = null)
     {
         $this->data = compact('success', 'error', 'context');
     }
@@ -29,7 +29,7 @@ final class Result implements ResultContract
      */
     public static function approval(ContextContract $context)
     {
-        return new static(true, null, $context);
+        return new static(true, $context);
     }
 
     /**
@@ -39,7 +39,7 @@ final class Result implements ResultContract
      */
     public static function refusal(RuleContract $rule, ContextContract $context)
     {
-        return new static(false, $rule, $context);
+        return new static(false, $context, $rule);
     }
 
     /**

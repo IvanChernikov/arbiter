@@ -3,6 +3,7 @@
 namespace Arbiter\Tests;
 
 use Arbiter\Arbiter;
+use Arbiter\Contracts\ResultContract;
 use Arbiter\Contracts\RuleContract;
 use Arbiter\Rules\IsBetweenRule;
 use Arbiter\Rules\IsEqualRule;
@@ -50,12 +51,10 @@ class CustomRuleTest extends TestCase
     {
         $rulebook = $this->getRulebook($rule);
 
-        var_dump($rulebook);
+        $result = $rulebook->evaluate();
+        $this->assertInstanceOf(ResultContract::class, $result);
 
-        $this->assertEquals(
-            $rulebook->evaluate(),
-            $expected
-        );
+        $this->assertEquals($result->success(), $expected);
     }
 
     /**

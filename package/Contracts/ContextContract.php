@@ -14,9 +14,9 @@ interface ContextContract
     public function timestamp();
 
     /**
-     * Returns a JSON serialized string
+     * Returns a JSON serializable array
      *
-     * @return string
+     * @return array
      */
     public function serialize();
 }
