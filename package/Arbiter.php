@@ -37,10 +37,11 @@ final class Arbiter implements Contracts\ArbiterContract
      *
      * @param mixed ...$rules
      * @return RuleBook
+     * @throws Core\Exceptions\CircularDependencyException
      */
     public function rulebook(...$rules)
     {
-        return new RuleBook($this, ...$rules);
+        return RuleBook::make($this, ...$rules);
     }
 
     /**

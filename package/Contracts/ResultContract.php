@@ -18,7 +18,7 @@ interface ResultContract extends JsonSerializable
      *
      * @return RuleContract|null
      */
-    public function error();
+    public function errors();
 
     /**
      * Returns a JSON serializable Context object

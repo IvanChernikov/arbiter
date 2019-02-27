@@ -24,10 +24,14 @@ abstract class Rule implements RuleContract
      */
     final public function hash()
     {
-        return sha1(implode(
-            array_merge([
-                static::class,
-            ], $this->normalize())
-        ));
+        return sha1(implode($this->jsonSerialize()));
+    }
+
+    /**
+     * @return array|mixed
+     */
+    final public function jsonSerialize()
+    {
+        return array_merge([static::class], $this->normalize());
     }
 }

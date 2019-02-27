@@ -16,11 +16,17 @@ use PHPUnit\Framework\TestCase;
 
 class ArbiterTest extends TestCase
 {
+    /**
+     * @return OrderedContext
+     */
     protected function getContext()
     {
         return new OrderedContext();
     }
 
+    /**
+     * Tests expand method
+     */
     public function testExpand()
     {
         $arbiter = new Arbiter($this->getContext());
@@ -39,6 +45,9 @@ class ArbiterTest extends TestCase
         }
     }
 
+    /**
+     * Tests successful result
+     */
     public function testApprove()
     {
         $arbiter = new Arbiter($this->getContext());
@@ -47,10 +56,13 @@ class ArbiterTest extends TestCase
 
         $this->assertInstanceOf(ResultContract::class, $result);
         $this->assertTrue($result->success());
-        $this->assertNull($result->error());
+        $this->assertEmpty($result->errors());
         $this->assertInstanceOf(ContextContract::class, $result->context());
     }
 
+    /**
+     * Tests failing result
+     */
     public function testRefuse()
     {
         $arbiter = new Arbiter($this->getContext());
@@ -61,10 +73,14 @@ class ArbiterTest extends TestCase
 
         $this->assertInstanceOf(ResultContract::class, $result);
         $this->assertFalse($result->success());
-        $this->assertEquals($rule, $result->error());
+        $this->assertContains($rule, $result->errors());
         $this->assertInstanceOf(ContextContract::class, $result->context());
     }
 
+    /**
+     * Test rulebook creation
+     * @throws \Arbiter\Core\Exceptions\CircularDependencyException
+     */
     public function testRulebook()
     {
         $arbiter = new Arbiter($this->getContext());
@@ -74,6 +90,9 @@ class ArbiterTest extends TestCase
         $this->assertInstanceOf(RuleBook::class, $rulebook);
     }
 
+    /**
+     * Test evaluate method
+     */
     public function testEvaluate()
     {
         $arbiter = new Arbiter($this->getContext());

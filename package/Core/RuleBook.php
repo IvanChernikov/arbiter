@@ -6,7 +6,6 @@ use Arbiter\Contracts\ArbiterContract;
 use Arbiter\Contracts\ResultContract;
 use Arbiter\Contracts\RuleContract;
 use Arbiter\Core\Exceptions\CircularDependencyException;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 final class RuleBook
@@ -17,13 +16,23 @@ final class RuleBook
     /**
      * RuleBook constructor.
      * @param ArbiterContract $arbiter
-     * @param RuleContract ...$rules
-     * @throws CircularDependencyException
+     * @param RuleContract[] $rules
      */
-    public function __construct(ArbiterContract $arbiter, RuleContract ...$rules)
+    private function __construct(ArbiterContract $arbiter, $rules = [])
     {
         $this->arbiter = $arbiter;
-        $this->rules   = $this->order(...$rules);
+        $this->rules   = $rules;
+    }
+
+    /**
+     * @param ArbiterContract $arbiter
+     * @param RuleContract ...$rules
+     * @return RuleBook
+     * @throws CircularDependencyException
+     */
+    public static function make(ArbiterContract $arbiter, RuleContract ...$rules)
+    {
+        return new static($arbiter, static::order($arbiter, $rules));
     }
 
     /**
@@ -47,32 +56,34 @@ final class RuleBook
      * Iterates through rules and creates the evaluation stack
      * Dependencies get evaluated first
      *
+     * @param ArbiterContract $arbiter
      * @param RuleContract[] $rules
      * @return RuleContract[]|Collection
      * @throws CircularDependencyException
      */
-    private function order(RuleContract ...$rules)
+    private static function order(ArbiterContract $arbiter, array $rules = [])
     {
-        $list = collect();
-        $tray = [array_reverse($rules)];
+        $list    = collect();
+        $tray    = [array_reverse($rules)];
         $parents = [];
         while ($tray) {
             $stack = array_pop($tray);
             while ($stack) {
                 $current = end($stack);
+                $hash    = $current->hash();
 
-                $this->detectCircularDependency($tray, $current);
-                $children = in_array($current->hash(), $parents)
+                static::detectCircularDependency($tray, $current);
+                $children = in_array($hash, $parents)
                     ? []
-                    : $this->arbiter->expand($current);
+                    : $arbiter->expand($current);
 
                 if ($children) {
-                    $parents[] = $current->hash();
+                    $parents[] = $hash;
                     array_push($tray, array_reverse($children));
                     break;
                 } else {
                     $list->push(array_pop($stack));
-                    if (in_array($current->hash(), $parents)) {
+                    if (in_array($hash, $parents)) {
                         array_pop($parents);
                     }
                 }
@@ -93,7 +104,7 @@ final class RuleBook
      * @param RuleContract $rule
      * @throws CircularDependencyException
      */
-    private function detectCircularDependency(array $tray, RuleContract $rule)
+    private static function detectCircularDependency(array $tray, RuleContract $rule)
     {
         $hash = $rule->hash();
         foreach ($tray as $stack) {

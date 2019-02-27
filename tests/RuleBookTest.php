@@ -17,6 +17,7 @@ class RuleBookTest extends TestCase
 {
     /**
      * Tests the order of evaluation for nested rules
+     * @throws CircularDependencyException
      */
     public function testExpandOrder()
     {
@@ -48,6 +49,7 @@ class RuleBookTest extends TestCase
 
     /**
      * Tests failure output
+     * @throws CircularDependencyException
      */
     public function testFailure()
     {
@@ -61,6 +63,10 @@ class RuleBookTest extends TestCase
         $this->assertFalse($result->success());
     }
 
+    /**
+     * Tests circular dependency in the rule tree
+     * @throws CircularDependencyException
+     */
     public function testCircularDependencyException()
     {
         $arbiter = new Arbiter(new OrderedContext());
@@ -72,10 +78,15 @@ class RuleBookTest extends TestCase
             $name,
             $name
         ));
+
         $this->expectException(CircularDependencyException::class);
         $arbiter->rulebook($rule)->evaluate();
     }
 
+    /**
+     * Tests that repetitive rules do not get detected as circular dependencies
+     * @throws CircularDependencyException
+     */
     public function testRepetitiveRule()
     {
         $arbiter = new Arbiter(new OrderedContext());

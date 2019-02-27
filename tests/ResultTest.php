@@ -54,10 +54,10 @@ class ResultTest extends TestCase
     public function testError()
     {
         $approval = Result::approval($this->context);
-        $this->assertNull($approval->error());
+        $this->assertEmpty($approval->errors());
 
         $refusal = Result::refusal($this->ruleFalse, $this->context);
-        $this->assertInstanceOf(RuleContract::class, $refusal->error());
+        $this->assertInstanceOf(RuleContract::class, array_first($refusal->errors()));
     }
 
     public function testJsonSerialize()
@@ -65,15 +65,15 @@ class ResultTest extends TestCase
         $approval = Result::approval($this->context);
         $this->assertEquals([
             'success' => true,
-            'error'   => null,
-            'context' => $this->context->jsonSerialize()
+            'errors'  => [],
+            'context' => $this->context
         ], $approval->jsonSerialize());
 
         $refusal = Result::refusal($this->ruleFalse, $this->context);
         $this->assertEquals([
             'success' => false,
-            'error'   => $this->ruleFalse,
-            'context' => $this->context->jsonSerialize()
+            'errors'  => [$this->ruleFalse],
+            'context' => $this->context
         ], $refusal->jsonSerialize());
     }
 

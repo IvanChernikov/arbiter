@@ -2,7 +2,9 @@
 
 namespace Arbiter\Contracts;
 
-interface RuleContract
+use JsonSerializable;
+
+interface RuleContract extends JsonSerializable
 {
     /**
      * Evaluates the rule
