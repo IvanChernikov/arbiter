@@ -7,6 +7,7 @@ use Arbiter\Contracts\ResultContract;
 use Arbiter\Contracts\RuleContract;
 use Arbiter\Core\Exceptions\CircularDependencyException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 final class RuleBook
 {
@@ -17,6 +18,7 @@ final class RuleBook
      * RuleBook constructor.
      * @param ArbiterContract $arbiter
      * @param RuleContract ...$rules
+     * @throws CircularDependencyException
      */
     public function __construct(ArbiterContract $arbiter, RuleContract ...$rules)
     {
@@ -46,43 +48,59 @@ final class RuleBook
      * Dependencies get evaluated first
      *
      * @param RuleContract[] $rules
-     * @return RuleContract[]
+     * @return RuleContract[]|Collection
+     * @throws CircularDependencyException
      */
     private function order(RuleContract ...$rules)
     {
-        return collect($rules)
-            ->reverse()
-            ->map(function (Rule $rule) {
-                return $this->expand($rule);
-            })
-            ->flatten()
-            ->reverse()
-            ->unique(function (Rule $rule) {
-                return $rule->hash();
-            });
+        $list = collect();
+        $tray = [array_reverse($rules)];
+        $parents = [];
+        while ($tray) {
+            $stack = array_pop($tray);
+            while ($stack) {
+                $current = end($stack);
+
+                $this->detectCircularDependency($tray, $current);
+                $children = in_array($current->hash(), $parents)
+                    ? []
+                    : $this->arbiter->expand($current);
+
+                if ($children) {
+                    $parents[] = $current->hash();
+                    array_push($tray, array_reverse($children));
+                    break;
+                } else {
+                    $list->push(array_pop($stack));
+                    if (in_array($current->hash(), $parents)) {
+                        array_pop($parents);
+                    }
+                }
+            }
+
+            if ($stack) {
+                array_splice($tray, -1, 0, [$stack]);
+            }
+        }
+
+        return $list->unique(function (Rule $rule) {
+            return $rule->hash();
+        });
     }
 
     /**
-     * Returns a rule and its dependencies
-     *
+     * @param array $tray
      * @param RuleContract $rule
-     * @return \Illuminate\Support\Collection
+     * @throws CircularDependencyException
      */
-    private function expand(RuleContract $rule)
+    private function detectCircularDependency(array $tray, RuleContract $rule)
     {
-        $stack = [$rule];
-        $tree  = collect();
-        while ($stack) {
-            $current = array_pop($stack);
-            tap($current->hash(), function ($hash) use ($tree, $current) {
-                if ($tree->has($hash)) {
-                    throw new CircularDependencyException($tree->get($hash), $current);
-                } else {
-                    $tree->put($hash, $current);
-                }
-            });
-            array_push($stack, ...$this->arbiter->expand($current));
+        $hash = $rule->hash();
+        foreach ($tray as $stack) {
+            $top = array_pop($stack);
+            if ($top && $top->hash() === $hash) {
+                throw new CircularDependencyException($top, $rule);
+            }
         }
-        return $tree->values();
     }
 }

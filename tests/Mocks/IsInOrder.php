@@ -8,7 +8,6 @@ use Arbiter\Contracts\ContextContract;
 class IsInOrder extends \Arbiter\Core\Rule
 {
     protected $expected;
-    protected $iteration;
 
     public function __construct($expected)
     {
@@ -34,7 +33,6 @@ class IsInOrder extends \Arbiter\Core\Rule
     {
         return [
             'expected'  => $this->expected,
-            'iteration' => $this->iteration,
         ];
     }
 }

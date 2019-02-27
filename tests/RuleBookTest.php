@@ -5,6 +5,7 @@ namespace Arbiter\Tests;
 use Arbiter\Arbiter;
 use Arbiter\Contracts\ResultContract;
 use Arbiter\Core\Exceptions\CircularDependencyException;
+use Arbiter\Core\RuleBook;
 use Arbiter\Tests\Mocks\IsCircular;
 use Arbiter\Tests\Mocks\IsTrue;
 use Arbiter\Tests\Mocks\OrderedContext;
@@ -73,5 +74,21 @@ class RuleBookTest extends TestCase
         ));
         $this->expectException(CircularDependencyException::class);
         $arbiter->rulebook($rule)->evaluate();
+    }
+
+    public function testRepetitiveRule()
+    {
+        $arbiter = new Arbiter(new OrderedContext());
+        $rule = new IsTrue(true);
+        $rulebook = $arbiter->rulebook(
+            new IsInNestedOrder(
+                0,
+                $rule,
+                $rule
+            )
+        );
+
+        $result = $rulebook->evaluate();
+        $this->assertTrue($result->success());
     }
 }
