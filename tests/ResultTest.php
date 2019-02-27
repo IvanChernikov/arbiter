@@ -6,7 +6,7 @@ use Arbiter\Contracts\ContextContract;
 use Arbiter\Contracts\ResultContract;
 use Arbiter\Contracts\RuleContract;
 use Arbiter\Core\Result;
-use Arbiter\Tests\Mocks\Contracts\SimpleContext;
+use Arbiter\Tests\Mocks\SimpleContext;
 use Arbiter\Tests\Mocks\IsTrue;
 use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;

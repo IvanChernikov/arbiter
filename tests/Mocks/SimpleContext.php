@@ -1,6 +1,6 @@
 <?php
 
-namespace Arbiter\Tests\Mocks\Contracts;
+namespace Arbiter\Tests\Mocks;
 
 use Arbiter\Contracts\ContextContract;
 use Carbon\Carbon;
