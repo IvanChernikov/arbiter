@@ -10,6 +10,7 @@ use Arbiter\Core\Result;
 use Arbiter\Core\RuleBook;
 use Arbiter\Tests\Mocks\IsInNestedOrder;
 use Arbiter\Tests\Mocks\IsInOrder;
+use Arbiter\Tests\Mocks\IsTrue;
 use Arbiter\Tests\Mocks\OrderedContext;
 use PHPUnit\Framework\TestCase;
 
@@ -77,8 +78,10 @@ class ArbiterTest extends TestCase
     {
         $arbiter = new Arbiter($this->getContext());
 
-        $rule = new IsInOrder(0);
+        $ruleTrue = new IsTrue(true);
+        $this->assertTrue($arbiter->evaluate($ruleTrue));
 
-        $this->assertTrue($arbiter->evaluate($rule));
+        $ruleFalse = new IsTrue(false);
+        $this->assertFalse($arbiter->evaluate($ruleFalse));
     }
 }

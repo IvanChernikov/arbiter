@@ -3,6 +3,7 @@
   "description": "Implementation of predicate based rule system",
   "type": "library",
   "require": {
+    "php": "^7.3",
     "illuminate/support": "^5.7",
     "illuminate/contracts": "^5.7"
   },

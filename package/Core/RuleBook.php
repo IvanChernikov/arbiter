@@ -21,7 +21,7 @@ final class RuleBook
     public function __construct(ArbiterContract $arbiter, RuleContract ...$rules)
     {
         $this->arbiter = $arbiter;
-        $this->rules   = $this->expand(...$rules);
+        $this->rules   = $this->order(...$rules);
     }
 
     /**
@@ -48,54 +48,40 @@ final class RuleBook
      * @param RuleContract[] $rules
      * @return RuleContract[]
      */
-    private function expand(RuleContract ...$rules)
+    private function order(RuleContract ...$rules)
     {
-        $list = collect();
-        while ($rules) {
-            $stack = [array_pop($rules)];
-            $tree  = collect();
-            while ($stack) {
-                $current = array_pop($stack);
-                tap($tree->count(), function ($count) use ($tree, $current) {
-                    if ($count === $tree->put($current->hash(), $current)) {
-                        throw new CircularDependencyException()
-                    }
-                    Arr::has($tree, $hash)
-                        ? Arr::set($tree, $hash, null)
-                        : ;
-                });
-
-            }
-        }
-
-
-        $stack = $rules;
-        while ($stack) {
-            /** @var \Arbiter\Contracts\RuleContract $current */
-            $current = array_pop($stack);
-            $list->push($current);
-            array_push($tray, ...$this->arbiter->expand($current));
-        }
-
-        return $list->reverse()->unique(function (Rule $rule) {
-            return $rule->hash();
-        })->all();
+        return collect(array_reverse($rules))
+            ->map(function (Rule $rule) {
+                return $this->expand($rule);
+            })
+            ->flatten()
+            ->reverse()
+            ->unique(function (Rule $rule) {
+                return $rule->hash();
+            });
     }
 
     /**
-     * Detects circular dependencies between rules
+     * Returns a rule and its dependencies
      *
-     * @param RuleContract $parent
-     * @param RuleContract ...$children
-     * @return RuleContract[]
+     * @param RuleContract $rule
+     * @return \Illuminate\Support\Collection
      */
-    private function validateExpansion(RuleContract $parent, RuleContract ...$children)
+    private function expand(RuleContract $rule)
     {
-        collect($children)->each(function (RuleContract $rule) use ($parent) {
-            if ($rule->hash() === $parent->hash()) {
-                throw new CircularDependencyException($parent, $rule);
-            }
-        });
-        return $children;
+        $stack = [$rule];
+        $tree  = collect();
+        while ($stack) {
+            $current = array_pop($stack);
+            tap($current->hash(), function ($hash) use (&$tree, &$current) {
+                if ($tree->has($hash)) {
+                    throw new CircularDependencyException($tree->get($hash), $current);
+                } else {
+                    $tree->put($hash, $current);
+                }
+            });
+            array_push($stack, ...$this->arbiter->expand($current));
+        }
+        return $tree->values();
     }
 }

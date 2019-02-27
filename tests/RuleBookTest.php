@@ -4,6 +4,9 @@ namespace Arbiter\Tests;
 
 use Arbiter\Arbiter;
 use Arbiter\Contracts\ResultContract;
+use Arbiter\Core\Exceptions\CircularDependencyException;
+use Arbiter\Tests\Mocks\IsCircular;
+use Arbiter\Tests\Mocks\IsTrue;
 use Arbiter\Tests\Mocks\OrderedContext;
 use Arbiter\Tests\Mocks\IsInNestedOrder;
 use Arbiter\Tests\Mocks\IsInOrder;
@@ -48,12 +51,21 @@ class RuleBookTest extends TestCase
     public function testFailure()
     {
         $arbiter = new Arbiter(new OrderedContext());
-        $rule = new IsInOrder(1);
+        $rule = new IsTrue(false);
         $rulebook = $arbiter->rulebook($rule);
 
         $result = $rulebook->evaluate();
 
         $this->assertInstanceOf(ResultContract::class, $result);
         $this->assertFalse($result->success());
+    }
+
+    public function testCircularDependencyException()
+    {
+        $arbiter = new Arbiter(new OrderedContext());
+        $rule = new IsCircular();
+
+        $this->expectException(CircularDependencyException::class);
+        $arbiter->rulebook($rule)->evaluate();
     }
 }

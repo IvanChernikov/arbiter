@@ -12,9 +12,7 @@ class IsInOrder extends \Arbiter\Core\Rule
 
     public function __construct($expected)
     {
-        static $i = 0;
         $this->expected = $expected;
-        $this->iteration = $i++;
     }
 
     /**
@@ -24,7 +22,9 @@ class IsInOrder extends \Arbiter\Core\Rule
     public function evaluate(ContextContract $context)
     {
         if ($context instanceof OrderedContextContract) {
-            return $context->iteration() === $this->expected;
+            $it = $context->iteration();
+            echo "{$it} === {$this->expected}\n";
+            return $it === $this->expected;
         }
         return false;
     }
