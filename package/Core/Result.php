@@ -65,10 +65,26 @@ final class Result implements ResultContract
     /**
      * Returns a JSON serialized Context object
      *
-     * @return string
+     * @return ContextContract
      */
     public function context()
     {
         return Arr::get($this->data, 'context');
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'success' => $this->success(),
+            'error'   => $this->error(),
+            'context' => $this->context()->jsonSerialize()
+        ];
     }
 }

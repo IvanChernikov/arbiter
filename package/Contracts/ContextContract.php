@@ -3,8 +3,9 @@
 namespace Arbiter\Contracts;
 
 use Carbon\Carbon;
+use JsonSerializable;
 
-interface ContextContract
+interface ContextContract extends JsonSerializable
 {
     /**
      * Returns the time of creation
@@ -15,8 +16,9 @@ interface ContextContract
 
     /**
      * Returns a JSON serializable array
+     * Enforcing array return in order to easily merge with parent
      *
      * @return array
      */
-    public function serialize();
+    public function jsonSerialize();
 }

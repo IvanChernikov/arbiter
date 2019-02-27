@@ -50,7 +50,8 @@ final class RuleBook
      */
     private function order(RuleContract ...$rules)
     {
-        return collect(array_reverse($rules))
+        return collect($rules)
+            ->reverse()
             ->map(function (Rule $rule) {
                 return $this->expand($rule);
             })
@@ -73,7 +74,7 @@ final class RuleBook
         $tree  = collect();
         while ($stack) {
             $current = array_pop($stack);
-            tap($current->hash(), function ($hash) use (&$tree, &$current) {
+            tap($current->hash(), function ($hash) use ($tree, $current) {
                 if ($tree->has($hash)) {
                     throw new CircularDependencyException($tree->get($hash), $current);
                 } else {
