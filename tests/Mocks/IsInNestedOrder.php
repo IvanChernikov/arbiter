@@ -7,6 +7,7 @@ use Arbiter\Contracts\ContextContract;
 class IsInNestedOrder extends IsInOrder
 {
     protected $rules;
+
     public function __construct($expected, IsInOrder ...$rules)
     {
         parent::__construct($expected);

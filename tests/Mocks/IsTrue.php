@@ -3,15 +3,15 @@
 namespace Arbiter\Tests\Mocks;
 
 use Arbiter\Contracts\ContextContract;
-use Arbiter\Rules\IsEqualRule;
+use Arbiter\Rules\IsEqualRuleContract;
 
-class IsTrue extends IsEqualRule
+class IsTrue extends IsEqualRuleContract
 {
     /**
      * @param ContextContract $context
      * @return bool
      */
-    public function getValue(ContextContract $context)
+    public function source(ContextContract $context)
     {
         return true;
     }

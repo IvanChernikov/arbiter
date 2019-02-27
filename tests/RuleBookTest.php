@@ -19,7 +19,7 @@ class RuleBookTest extends TestCase
      */
     public function testExpandOrder()
     {
-        $arbiter = new Arbiter(new OrderedContext());
+        $arbiter  = new Arbiter(new OrderedContext());
         $rulebook = $arbiter->rulebook(
             new IsInOrder(0),
             new IsInOrder(1),
@@ -50,8 +50,8 @@ class RuleBookTest extends TestCase
      */
     public function testFailure()
     {
-        $arbiter = new Arbiter(new OrderedContext());
-        $rule = new IsTrue(false);
+        $arbiter  = new Arbiter(new OrderedContext());
+        $rule     = new IsTrue(false);
         $rulebook = $arbiter->rulebook($rule);
 
         $result = $rulebook->evaluate();
@@ -63,8 +63,14 @@ class RuleBookTest extends TestCase
     public function testCircularDependencyException()
     {
         $arbiter = new Arbiter(new OrderedContext());
-        $rule = new IsCircular();
+        $rule    = new IsCircular();
+        $name    = get_class($rule);
 
+        $this->expectExceptionMessage(sprintf(
+            CircularDependencyException::MESSAGE_FORMAT,
+            $name,
+            $name
+        ));
         $this->expectException(CircularDependencyException::class);
         $arbiter->rulebook($rule)->evaluate();
     }

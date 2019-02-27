@@ -65,14 +65,14 @@ class ResultTest extends TestCase
         $approval = Result::approval($this->context);
         $this->assertEquals([
             'success' => true,
-            'error' => null,
+            'error'   => null,
             'context' => $this->context->jsonSerialize()
         ], $approval->jsonSerialize());
 
         $refusal = Result::refusal($this->ruleFalse, $this->context);
         $this->assertEquals([
             'success' => false,
-            'error' => $this->ruleFalse,
+            'error'   => $this->ruleFalse,
             'context' => $this->context->jsonSerialize()
         ], $refusal->jsonSerialize());
     }

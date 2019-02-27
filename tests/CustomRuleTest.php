@@ -5,11 +5,11 @@ namespace Arbiter\Tests;
 use Arbiter\Arbiter;
 use Arbiter\Contracts\ResultContract;
 use Arbiter\Contracts\RuleContract;
-use Arbiter\Rules\IsBetweenRule;
-use Arbiter\Rules\IsEqualRule;
-use Arbiter\Rules\IsGreaterThanRule;
-use Arbiter\Rules\IsInArrayRule;
-use Arbiter\Rules\IsLessThanRule;
+use Arbiter\Rules\IsBetweenRuleContract;
+use Arbiter\Rules\IsEqualRuleContract;
+use Arbiter\Rules\IsGreaterThanRuleContract;
+use Arbiter\Rules\IsInArrayRuleContract;
+use Arbiter\Rules\IsLessThanRuleContract;
 use Arbiter\Rules\IsNotEqualRule;
 use Arbiter\Rules\IsNotInArrayRule;
 use Arbiter\Tests\Mocks\OrderedContext;
@@ -28,7 +28,7 @@ class CustomRuleTest extends TestCase
     {
         $stub = $this->getMockForAbstractClass($class, $params);
         $stub->expects($this->any())
-            ->method('getValue')
+            ->method('source')
             ->with($this->anything())
             ->will($this->returnValue($value));
         return $stub;
@@ -83,13 +83,13 @@ class CustomRuleTest extends TestCase
     public function getCustomRuleData()
     {
         return [
-            IsBetweenRule::class     => [IsBetweenRule::class, [0, 2], 1, 3],
-            IsEqualRule::class       => [IsEqualRule::class, [1], 1, 0],
-            IsGreaterThanRule::class => [IsGreaterThanRule::class, [1], 2, 0],
-            IsInArrayRule::class     => [IsInArrayRule::class, [[1, 2]], 1, 0],
-            IsLessThanRule::class    => [IsLessThanRule::class, [1], 0, 2],
-            IsNotEqualRule::class    => [IsNotEqualRule::class, [1], 0, 1],
-            IsNotInArrayRule::class  => [IsNotInArrayRule::class, [[1, 2]], 0, 1],
+            IsBetweenRuleContract::class     => [IsBetweenRuleContract::class, [0, 2], 1, 3],
+            IsEqualRuleContract::class       => [IsEqualRuleContract::class, [1], 1, 0],
+            IsGreaterThanRuleContract::class => [IsGreaterThanRuleContract::class, [1], 2, 0],
+            IsInArrayRuleContract::class     => [IsInArrayRuleContract::class, [[1, 2]], 1, 0],
+            IsLessThanRuleContract::class    => [IsLessThanRuleContract::class, [1], 0, 2],
+            IsNotEqualRule::class            => [IsNotEqualRule::class, [1], 0, 1],
+            IsNotInArrayRule::class          => [IsNotInArrayRule::class, [[1, 2]], 0, 1],
         ];
     }
 }

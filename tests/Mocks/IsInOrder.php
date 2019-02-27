@@ -22,9 +22,7 @@ class IsInOrder extends \Arbiter\Core\Rule
     public function evaluate(ContextContract $context)
     {
         if ($context instanceof OrderedContextContract) {
-            $it = $context->iteration();
-            echo "{$it} === {$this->expected}\n";
-            return $it === $this->expected;
+            return $context->iteration() === $this->expected;
         }
         return false;
     }
@@ -35,7 +33,7 @@ class IsInOrder extends \Arbiter\Core\Rule
     public function normalize()
     {
         return [
-            'expected' => $this->expected,
+            'expected'  => $this->expected,
             'iteration' => $this->iteration,
         ];
     }

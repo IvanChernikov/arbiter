@@ -3,10 +3,10 @@
 namespace Arbiter\Rules;
 
 use Arbiter\Contracts\ContextContract;
-use Arbiter\Contracts\CustomValueRule;
+use Arbiter\Contracts\SourceRuleContract;
 use Arbiter\Core\Rule;
 
-abstract class IsEqualRule extends Rule implements CustomValueRule
+abstract class IsEqualRuleContract extends Rule implements SourceRuleContract
 {
     protected $value;
 
@@ -27,7 +27,7 @@ abstract class IsEqualRule extends Rule implements CustomValueRule
      */
     public function evaluate(ContextContract $context)
     {
-        return $this->getValue($context) == $this->value;
+        return $this->source($context) == $this->value;
     }
 
     /**

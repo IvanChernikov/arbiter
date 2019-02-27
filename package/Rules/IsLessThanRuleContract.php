@@ -3,22 +3,19 @@
 namespace Arbiter\Rules;
 
 use Arbiter\Contracts\ContextContract;
-use Arbiter\Contracts\CustomValueRule;
+use Arbiter\Contracts\SourceRuleContract;
 use Arbiter\Core\Rule;
 
-abstract class IsBetweenRule extends Rule implements CustomValueRule
+abstract class IsLessThanRuleContract extends Rule implements SourceRuleContract
 {
-    protected $floor;
     protected $ceiling;
 
     /**
-     * IsBetween constructor.
-     * @param $floor
+     * IsLessThan constructor.
      * @param $ceiling
      */
-    public function __construct($floor, $ceiling)
+    public function __construct($ceiling)
     {
-        $this->floor   = $floor;
         $this->ceiling = $ceiling;
     }
 
@@ -30,8 +27,7 @@ abstract class IsBetweenRule extends Rule implements CustomValueRule
      */
     public function evaluate(ContextContract $context)
     {
-        $value = $this->getValue($context);
-        return $value >= $this->floor && $value <= $this->ceiling;
+        return $this->source($context) < $this->ceiling;
     }
 
     /**
@@ -42,7 +38,6 @@ abstract class IsBetweenRule extends Rule implements CustomValueRule
     public function normalize()
     {
         return [
-            'floor'   => $this->floor,
             'ceiling' => $this->ceiling,
         ];
     }
