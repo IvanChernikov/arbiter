@@ -37,7 +37,7 @@ class OrderedContext implements Contracts\OrderedContextContract
     /**
      * @return array
      */
-    public function serialize()
+    public function jsonSerialize()
     {
         return [
             'timestamp' => $this->timestamp,

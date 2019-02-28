@@ -3,10 +3,10 @@
 namespace Arbiter\Rules;
 
 use Arbiter\Contracts\ContextContract;
-use Arbiter\Contracts\CustomValueRule;
+use Arbiter\Contracts\SourceRuleContract;
 use Arbiter\Core\Rule;
 
-abstract class IsGreaterThanRule extends Rule implements CustomValueRule
+abstract class IsGreaterThanRuleContract extends Rule implements SourceRuleContract
 {
     protected $floor;
 
@@ -27,7 +27,7 @@ abstract class IsGreaterThanRule extends Rule implements CustomValueRule
      */
     public function evaluate(ContextContract $context)
     {
-        return $this->getValue($context) > $this->floor;
+        return $this->source($context) > $this->floor;
     }
 
     /**

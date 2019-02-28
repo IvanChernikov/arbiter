@@ -4,7 +4,6 @@ namespace Arbiter;
 
 use Arbiter\Contracts\ContextContract;
 use Arbiter\Contracts\RuleContract;
-use Arbiter\Builder\Builder;
 use Arbiter\Core\Result;
 use Arbiter\Core\RuleBook;
 use Illuminate\Support\Arr;
@@ -38,20 +37,11 @@ final class Arbiter implements Contracts\ArbiterContract
      *
      * @param mixed ...$rules
      * @return RuleBook
+     * @throws Core\Exceptions\CircularDependencyException
      */
     public function rulebook(...$rules)
     {
-        return new RuleBook($this, ...$rules);
-    }
-
-    /**
-     * Creates a new rulebook Builder
-     *
-     * @return Builder
-     */
-    public function builder()
-    {
-        return new Builder($this);
+        return RuleBook::make($this, ...$rules);
     }
 
     /**
@@ -74,11 +64,22 @@ final class Arbiter implements Contracts\ArbiterContract
         return $rule->expand($this->context);
     }
 
+    /**
+     * Refuses a rulebook
+     *
+     * @param RuleContract $rule
+     * @return Contracts\ResultContract|Result
+     */
     public function refuse(RuleContract $rule)
     {
         return Result::refusal($rule, $this->context);
     }
 
+    /**
+     * Approves a rulebook
+     *
+     * @return Contracts\ResultContract|Result
+     */
     public function approve()
     {
         return Result::approval($this->context);

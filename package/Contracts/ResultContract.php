@@ -2,7 +2,9 @@
 
 namespace Arbiter\Contracts;
 
-interface ResultContract
+use JsonSerializable;
+
+interface ResultContract extends JsonSerializable
 {
     /**
      * Returns if the evaluation passed
@@ -16,12 +18,12 @@ interface ResultContract
      *
      * @return RuleContract|null
      */
-    public function error();
+    public function errors();
 
     /**
      * Returns a JSON serializable Context object
      *
-     * @return string
+     * @return ContextContract
      */
     public function context();
 }

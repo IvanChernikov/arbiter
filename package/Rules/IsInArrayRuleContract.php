@@ -3,10 +3,10 @@
 namespace Arbiter\Rules;
 
 use Arbiter\Contracts\ContextContract;
-use Arbiter\Contracts\CustomValueRule;
+use Arbiter\Contracts\SourceRuleContract;
 use Arbiter\Core\Rule;
 
-abstract class IsInArrayRule extends Rule implements CustomValueRule
+abstract class IsInArrayRuleContract extends Rule implements SourceRuleContract
 {
     protected $array = [];
 
@@ -26,7 +26,7 @@ abstract class IsInArrayRule extends Rule implements CustomValueRule
      */
     public function evaluate(ContextContract $context)
     {
-        return in_array($this->getValue($context), $this->array);
+        return in_array($this->source($context), $this->array);
     }
 
     /**
